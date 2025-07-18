@@ -7,8 +7,9 @@ import WaitlistForm from "@/components/WaitlistForm";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-gray-100">
-            <section>
+    <main className="flex min-h-screen flex-col items-center justify-center">
+            <section className="">
+              <h1>Log ind</h1>
             <h2 className="text-xl font-semibold mb-2">Tilmeld Kunde (Venteliste)</h2>
             <WaitlistForm />
             <BusinessSignupForm />
