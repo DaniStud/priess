@@ -2,59 +2,60 @@
 @tailwind components;
 @tailwind utilities;
 
+
 @layer base {
   :root {
-    --background: 261 35% 27%;
-    --foreground: 210 11% 9%;
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 3.9%;
-    --primary: 0 0% 9%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 0 0% 96.1%;
-    --secondary-foreground: 0 0% 9%;
-    --muted: 0 0% 96.1%;
-    --muted-foreground: 0 0% 45.1%;
-    --accent: 0 0% 3.9%;
-    --accent-foreground: 0 0% 9%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 89.8%;
-    --input: 0 0% 89.8%;
-    --ring: 0 0% 3.9%;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
-    --radius: 0.5rem
+    --background: 261 35% 27%;           /* deep blue-grey (dark purple) */
+    --foreground: 0 0% 98%;              /* almost white */
+    --card: 0 0% 100%;                   /* white */
+    --card-foreground: 0 0% 3.9%;        /* almost black */
+    --popover: 0 0% 100%;                /* white */
+    --popover-foreground: 0 0% 3.9%;     /* almost black */
+    --primary: 0 0% 9%;                  /* very dark grey (almost black) */
+    --primary-foreground: 0 0% 98%;      /* almost white */
+    --secondary: 0 0% 96.1%;             /* very light grey */
+    --secondary-foreground: 0 0% 9%;     /* very dark grey (almost black) */
+    --muted: 0 0% 96.1%;                 /* very light grey */
+    --muted-foreground: 0 0% 45.1%;      /* medium grey */
+    --accent: 0 0% 3.9%;                 /* almost black */
+    --accent-foreground: 0 0% 9%;        /* very dark grey (almost black) */
+    --destructive: 0 84.2% 60.2%;        /* bright red */
+    --destructive-foreground: 0 0% 98%;  /* almost white */
+    --border: 0 0% 89.8%;                /* light grey */
+    --input: 0 0% 89.8%;                 /* light grey */
+    --ring: 0 0% 3.9%;                   /* almost black */
+    --chart-1: 12 76% 61%;               /* orange */
+    --chart-2: 173 58% 39%;              /* teal */
+    --chart-3: 197 37% 24%;              /* dark blue */
+    --chart-4: 43 74% 66%;               /* yellow */
+    --chart-5: 27 87% 67%;               /* orange-yellow */
+    --radius: 0.5rem                     /* border radius */
   }
   .dark {
-    --background: 0 0% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 0 0% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 9%;
-    --secondary: 0 0% 14.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
-    --accent: 0 0% 14.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
-    --ring: 0 0% 83.1%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%
+    --background: 0 0% 3.9%;             /* almost black */
+    --foreground: 0 0% 98%;              /* almost white */
+    --card: 0 0% 3.9%;                   /* almost black */
+    --card-foreground: 0 0% 98%;         /* almost white */
+    --popover: 0 0% 3.9%;                /* almost black */
+    --popover-foreground: 0 0% 98%;      /* almost white */
+    --primary: 0 0% 98%;                 /* almost white */
+    --primary-foreground: 0 0% 9%;       /* very dark grey (almost black) */
+    --secondary: 0 0% 14.9%;             /* very dark grey (almost black) */
+    --secondary-foreground: 0 0% 98%;    /* almost white */
+    --muted: 0 0% 14.9%;                 /* very dark grey (almost black) */
+    --muted-foreground: 0 0% 63.9%;      /* light grey */
+    --accent: 0 0% 14.9%;                /* very dark grey (almost black) */
+    --accent-foreground: 0 0% 98%;       /* almost white */
+    --destructive: 0 62.8% 30.6%;        /* dark red */
+    --destructive-foreground: 0 0% 98%;  /* almost white */
+    --border: 0 0% 14.9%;                /* very dark grey (almost black) */
+    --input: 0 0% 14.9%;                 /* very dark grey (almost black) */
+    --ring: 0 0% 83.1%;                  /* light grey */
+    --chart-1: 220 70% 50%;              /* blue */
+    --chart-2: 160 60% 45%;              /* green */
+    --chart-3: 30 80% 55%;               /* orange */
+    --chart-4: 280 65% 60%;              /* purple */
+    --chart-5: 340 75% 55%;              /* pink */
   }
 }
 
@@ -65,7 +66,9 @@
   body {
     @apply bg-background text-foreground;
   }
-  section{
-    @apply bg-card;
-  }
+
+  .card {
+  @apply bg-card text-card-foreground;
+}
+
 }
