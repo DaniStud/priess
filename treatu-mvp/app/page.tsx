@@ -12,13 +12,14 @@ export default function Home() {
       <main className="">
         <Navigation />
         
-        <section>
+        <section className="flex mt-[10vh] justify-between ml-[10vw] max-w-[80vw]">
+
           <div className="hidden sm:block">
             <h2>KBH's SELFCARE PLATFORM</h2>
             <h2>Welcome Back!</h2>
           </div>
 
-            <div className="card p-10 pb-20 rounded-lg mt-[10vh] ml-[5vw] max-w-[90vw]">
+            <div className="card p-10 pb-20 rounded-lg ml-[5vw] max-w-[90vw] sm:max-w-[60vw]">
             <h1 className="mb-32">Log ind</h1>
             <BusinessLoginForm />
             <div className="flex items-center my-6">
