@@ -61,13 +61,18 @@
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-border font-poppins;
   }
   body {
     @apply bg-background text-foreground;
   }
+
   h1 {
-    @apply text-4xl font-bold text-black;
+    @apply text-4xl font-bold text-black font-league;
+  }
+
+  h2 {
+    @apply font-league;
   }
 
   .card {
