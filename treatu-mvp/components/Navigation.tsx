@@ -2,9 +2,9 @@ import { NavigationMenu, NavigationMenuList, NavigationMenuItem } from "@/compon
 
 export default function Navigation() {
     return (
-        <NavigationMenu>
-            <NavigationMenuList>
-                <NavigationMenuItem>TreatU DK</NavigationMenuItem>
+        <NavigationMenu className="flex justify-between ml-20 mt-10 md:max-w-[80vw] lg:max-w-[50vw] w-full">
+            <NavigationMenuList className="hidden lg:flex justify-between" >
+                <NavigationMenuItem className="text-4xl">TreatU DK</NavigationMenuItem>
                 <NavigationMenuItem>HJEM</NavigationMenuItem>
                 <NavigationMenuItem>OM OS</NavigationMenuItem>
                 <NavigationMenuItem>KONTAKT</NavigationMenuItem>

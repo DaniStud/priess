@@ -66,6 +66,9 @@
   body {
     @apply bg-background text-foreground;
   }
+  h1 {
+    @apply text-4xl font-bold text-black;
+  }
 
   .card {
   @apply bg-card text-card-foreground;

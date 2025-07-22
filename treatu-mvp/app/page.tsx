@@ -10,24 +10,33 @@ export default function Home() {
   return (
     <>
       <main className="">
-        <Navigation />
-        
-        <section className="flex mt-[10vh] justify-between ml-[10vw] max-w-[80vw]">
+        <Navigation/>
+        <div className="flex justify-between ml-[10vw] max-w-[80vw]">
+            <section>
+            <div className="hidden md:flex flex-col items-center justify-center text-6xl h-full">
+              <div>
+              <h2>KBH's SELFCARE PLATFORM</h2>
+              </div>
+                <div>
+                <h2 className="pt-60">Welcome Back!</h2>
+              </div>
+            </div>
+            </section>
 
-          <div className="hidden sm:block">
-            <h2>KBH's SELFCARE PLATFORM</h2>
-            <h2>Welcome Back!</h2>
-          </div>
-
-            <div className="card p-10 pb-20 rounded-lg ml-[5vw] max-w-[90vw] sm:max-w-[60vw]">
-            <h1 className="mb-32">Log ind</h1>
+        <section>
+            <div className="card p-10 pb-20 rounded-lg ml-[0vw] sm:ml-[5vw] min-w-[80vw] sm:min-w-[500px] sm:min-h-[85vh]">
+            <h1 className="mb-32 mt-20">Log ind</h1>
             <BusinessLoginForm />
             <div className="flex items-center my-6">
               <hr className="flex-1 border-t border-gray-300" />
               <span className="mx-4 text-gray-500">eller</span>
               <hr className="flex-1 border-t border-gray-300" />
             </div>
-            <Button variant="outline" className="w-full mb-6 bg-gray-200 text-gray-700 hover:bg-gray-300" asChild>
+            <Button
+              variant="outline"
+              className="w-full mb-6 bg-gray-200 text-gray-700 hover:bg-gray-300 sm:pl-20 sm:pr-20"
+              asChild
+            >
               <a href="/signup">Tilmeld din virksomhed i dag!</a>
             </Button>
             <div className="flex justify-between mt-10">
@@ -37,6 +46,8 @@ export default function Home() {
             </div>
             </div>
         </section>
+                </div>
+
       </main>
     </>
   );
