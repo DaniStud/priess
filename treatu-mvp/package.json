@@ -2,8 +2,8 @@
   "private": true,
   "scripts": {
     "dev": "next",
-    "build": "next build",
-    "start": "next start",
+  "build": "prisma generate && next build",    
+  "start": "next start",
     "type-check": "tsc"
   },
   "dependencies": {
