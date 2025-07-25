@@ -1,3 +1,4 @@
+import { Dialog, DialogTrigger, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Menu } from "lucide-react";
 import Navigation from "@/components/Navigation";
 
