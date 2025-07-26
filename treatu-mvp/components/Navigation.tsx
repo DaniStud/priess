@@ -10,10 +10,10 @@ export default function Navigation() {
             {/* Desktop navigation: visible on xl and up, hidden on tablet and smaller */}
             <NavigationMenu className="hidden xl:flex flex-1 justify-between">
                 <NavigationMenuList className="flex gap-8">
-                    <NavigationMenuItem className="text-xl">HJEM</NavigationMenuItem>
-                    <NavigationMenuItem className="text-xl">OM OS</NavigationMenuItem>
-                    <NavigationMenuItem className="text-xl">KONTAKT</NavigationMenuItem>
-                    <NavigationMenuItem className="text-xl">TILMELD DIG</NavigationMenuItem>
+                    <NavigationMenuItem className="text-xl">HOME</NavigationMenuItem>
+                    <NavigationMenuItem className="text-xl">ABOUT US</NavigationMenuItem>
+                    <NavigationMenuItem className="text-xl">CONTACT</NavigationMenuItem>
+                    <NavigationMenuItem className="text-xl">SIGN UP</NavigationMenuItem>
                 </NavigationMenuList>
             </NavigationMenu>
             

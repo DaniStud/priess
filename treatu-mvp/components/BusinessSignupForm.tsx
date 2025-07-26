@@ -164,38 +164,38 @@ export default function BusinessSignupForm() {
     <div>
       {step === "signup" && (
         <form className="flex flex-col gap-2 max-w-md mx-auto mt-8" onSubmit={handleSignupSubmit}>
-          <Input name="name" placeholder="Virksomhedsnavn" value={form.name} onChange={handleChange} required />
+          <Input name="name" placeholder="Business name" value={form.name} onChange={handleChange} required />
           <Input type="email" name="email" placeholder="Email" value={form.email} onChange={handleChange} required />
           <div className="flex gap-2">
-            <Input className="w-1/2" type="password" name="password" placeholder="Adgangskode" value={form.password} onChange={handleChange} required />
-            <Input className="w-1/2" type="password" name="confirmPassword" placeholder="Bekræft adgangskode" value={confirmPassword} onChange={handleConfirmPasswordChange} required />
+            <Input className="w-1/2" type="password" name="password" placeholder="Password" value={form.password} onChange={handleChange} required />
+            <Input className="w-1/2" type="password" name="confirmPassword" placeholder="Confirm password" value={confirmPassword} onChange={handleConfirmPasswordChange} required />
           </div>
           <Button type="submit" disabled={loading}>
-            {loading ? "Opretter..." : "Næste trin"}
+            {loading ? "Creating..." : "Next step"}
           </Button>
-          {status === "password-mismatch" && <p className="text-red-600">Adgangskoderne matcher ikke.</p>}
+          {status === "password-mismatch" && <p className="text-red-600">Passwords do not match.</p>}
         </form>
       )}
 
       {step === "business-type" && (
         <form className="flex flex-col gap-4 max-w-md mx-auto mt-8" onSubmit={handleBusinessTypeSubmit}>
-          <label className="mb-2 font-semibold text-lg">Vælg din forretningstype</label>
+          <label className="mb-2 font-semibold text-lg">Select your business type</label>
           <Select value={businessType} onValueChange={setBusinessType} required>
             <SelectTrigger>
-              <SelectValue placeholder="Vælg type..." />
+          <SelectValue placeholder="Select type..." />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="nail salon">Neglesalon</SelectItem>
-              <SelectItem value="hair salon">Frisørsalon</SelectItem>
-              <SelectItem value="beauty salon">Skønhedssalon</SelectItem>
+              <SelectItem value="nail salon">Nail salon</SelectItem>
+              <SelectItem value="hair salon">Hair salon</SelectItem>
+              <SelectItem value="beauty salon">Beauty salon</SelectItem>
             </SelectContent>
           </Select>
           <div className="flex gap-2">
             <Button type="button" onClick={handleBackFromBusinessType}>
-              Tilbage
+              Back
             </Button>
             <Button type="submit" disabled={loading || !businessType}>
-              {loading ? "Fortsætter..." : "Næste trin"}
+              {loading ? "Continuing..." : "Next step"}
             </Button>
           </div>
         </form>
@@ -203,7 +203,7 @@ export default function BusinessSignupForm() {
 
       {step === "services" && (
         <form className="flex flex-col gap-4 max-w-md mx-auto mt-8" onSubmit={handleServicesSubmit}>
-          <h1 className="text-2xl font-bold mb-4">Hvilke tjenester tilbyder I?</h1>
+          <h1 className="text-2xl font-bold mb-4">Which services do you offer?</h1>
           <div className="flex flex-col gap-2 mb-4">
             {(SERVICES[businessType as keyof typeof SERVICES] || []).map((service) => (
               <label key={service} className="flex items-center gap-2 cursor-pointer">
@@ -218,33 +218,33 @@ export default function BusinessSignupForm() {
           </div>
           <div className="flex gap-2">
             <Button type="button" onClick={handleBackFromServices}>
-              Tilbage
+              Back
             </Button>
             <Button type="submit" disabled={loading || !services.length}>
-              {loading ? "Fortsætter..." : "Næste trin"}
+              {loading ? "Continuing..." : "Next step"}
             </Button>
           </div>
-          {status === "duplicate" && <p className="text-yellow-600">Denne email er allerede oprettet.</p>}
-          {status === "error" && <p className="text-red-600">Noget gik galt. Prøv igen.</p>}
+          {status === "duplicate" && <p className="text-yellow-600">This email is already registered.</p>}
+          {status === "error" && <p className="text-red-600">Something went wrong. Please try again.</p>}
         </form>
       )}
 
       {step === "salon-name" && (
         <form className="flex flex-col gap-4 max-w-md mx-auto mt-8" onSubmit={handleSalonNameSubmit}>
-          <h1 className="text-2xl font-bold mb-4">Salonnens navn</h1>
+          <h1 className="text-2xl font-bold mb-4">Salon name</h1>
           <Input
             name="salonName"
-            placeholder="Navn på salon"
+            placeholder="Name of salon"
             value={salonName}
             onChange={e => setSalonName(e.target.value)}
             required
           />
           <div className="flex gap-2">
             <Button type="button" onClick={handleBackFromSalonName}>
-              Tilbage
+              Back
             </Button>
             <Button type="submit" disabled={loading || !salonName.trim()}>
-              {loading ? "Fortsætter..." : "Næste trin"}
+              {loading ? "Continuing..." : "Next step"}
             </Button>
           </div>
         </form>
@@ -252,10 +252,10 @@ export default function BusinessSignupForm() {
 
       {step === "address" && (
         <form className="flex flex-col gap-4 max-w-md mx-auto mt-8" onSubmit={handleAddressSubmit}>
-          <h1 className="text-2xl font-bold mb-4">Hvor ligger jeres salon?</h1>
+          <h1 className="text-2xl font-bold mb-4">Where is your salon located?</h1>
           <Input
             name="address"
-            placeholder="Adresse (fx Gammel Kongevej 1)"
+            placeholder="Address (e.g. Main Street 1)"
             value={address.address}
             onChange={e => setAddress(a => ({ ...a, address: e.target.value }))}
             required
@@ -263,14 +263,14 @@ export default function BusinessSignupForm() {
           <div className="flex gap-2">
             <Input
               name="zipCode"
-              placeholder="Postnummer"
+              placeholder="Zip code"
               value={address.zipCode}
               onChange={e => setAddress(a => ({ ...a, zipCode: e.target.value }))}
               required
             />
             <Input
               name="city"
-              placeholder="By"
+              placeholder="City"
               value={address.city}
               onChange={e => setAddress(a => ({ ...a, city: e.target.value }))}
               required
@@ -278,27 +278,27 @@ export default function BusinessSignupForm() {
           </div>
           <Input
             name="country"
-            placeholder="Land"
+            placeholder="Country"
             value={address.country}
             onChange={e => setAddress(a => ({ ...a, country: e.target.value }))}
             required
           />
           <div className="flex gap-2">
             <Button type="button" onClick={handleBackFromAddress}>
-              Tilbage
+              Back
             </Button>
             <Button type="submit" disabled={loading || !address.address || !address.city || !address.zipCode || !address.country}>
-              {loading ? "Opretter..." : "Opret virksomhed"}
+              {loading ? "Creating..." : "Create business"}
             </Button>
           </div>
-          {status === "duplicate" && <p className="text-yellow-600">Denne email er allerede oprettet.</p>}
-          {status === "error" && <p className="text-red-600">Noget gik galt. Prøv igen.</p>}
+          {status === "duplicate" && <p className="text-yellow-600">This email is already registered.</p>}
+          {status === "error" && <p className="text-red-600">Something went wrong. Please try again.</p>}
         </form>
       )}
 
       {step === "done" && (
         <div className="flex flex-col items-center gap-4 mt-8">
-          <p className="text-green-600">Virksomhed oprettet! Du videresendes til login.</p>
+          <p className="text-green-600">Business created! You will be redirected to login.</p>
         </div>
       )}
     </div>

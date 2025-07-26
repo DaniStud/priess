@@ -25,16 +25,16 @@ export function MobileNav() {
         </SheetHeader>
         <nav className="flex flex-col gap-6 p-6 text-lg">
           <SheetClose asChild>
-            <button>HJEM</button>
+            <button>HOME</button>
           </SheetClose>
           <SheetClose asChild>
-            <button>OM OS</button>
+            <button>ABOUT US</button>
           </SheetClose>
           <SheetClose asChild>
-            <button>KONTAKT</button>
+            <button>CONTACT</button>
           </SheetClose>
           <SheetClose asChild>
-            <button>TILMELD DIG</button>
+            <button>SIGN UP</button>
           </SheetClose>
         </nav>
       </SheetContent>

@@ -34,21 +34,21 @@ export default function AppSidebar() {
           <SidebarMenuItem>
             <Link href="/dashboard/calendar">
               <SidebarMenuButton className="flex items-center gap-3 py-3 px-3 text-base hover:bg-[#5e3e93] rounded-lg transition">
-                <CalendarDays size={20} /> Kalender & tider
+                <CalendarDays size={20} /> Calendar & times
               </SidebarMenuButton>
             </Link>
           </SidebarMenuItem>
           <SidebarMenuItem>
             <Link href="/dashboard/notifications">
               <SidebarMenuButton className="flex items-center gap-3 py-3 px-3 text-base hover:bg-[#5e3e93] rounded-lg transition">
-                <Bell size={20} /> Notifikationer
+                <Bell size={20} /> Notifications
               </SidebarMenuButton>
             </Link>
           </SidebarMenuItem>
           <SidebarMenuItem>
             <Link href="/dashboard/settings">
               <SidebarMenuButton className="flex items-center gap-3 py-3 px-3 text-base hover:bg-[#5e3e93] rounded-lg transition">
-                <Settings size={20} /> Indstillinger
+                <Settings size={20} /> Settings
               </SidebarMenuButton>
             </Link>
           </SidebarMenuItem>

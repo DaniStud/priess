@@ -32,17 +32,17 @@ export default function WaitlistForm() {
     <form className="flex flex-col gap-2" onSubmit={submit}>
       <Input
         type="email"
-        placeholder="Din email"
+        placeholder="Your email"
         value={email}
         onChange={e => setEmail(e.target.value)}
         required
       />
       <Button type="submit" disabled={loading}>
-        {loading ? "Sender..." : "Tilmeld venteliste"}
+        {loading ? "Sending..." : "Join waitlist"}
       </Button>
-      {status === "success" && <p className="text-green-600">Tak! Du er nu på ventelisten.</p>}
-      {status === "duplicate" && <p className="text-yellow-600">Denne email er allerede tilmeldt.</p>}
-      {status === "error" && <p className="text-red-600">Noget gik galt. Prøv igen.</p>}
+      {status === "success" && <p className="text-green-600">Thank you! You are now on the waitlist.</p>}
+      {status === "duplicate" && <p className="text-yellow-600">This email is already registered.</p>}
+      {status === "error" && <p className="text-red-600">Something went wrong. Please try again.</p>}
     </form>
   );
 }
