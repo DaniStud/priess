@@ -20,7 +20,7 @@ model Business {
 
 model Salon {
   id          Int         @id @default(autoincrement())
-  name        String
+  name        String      // <-- this is the salon name
   business    Business    @relation(fields: [businessId], references: [id])
   businessId  Int
   salonType   SalonType   @relation(fields: [salonTypeId], references: [id])

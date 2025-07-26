@@ -3,9 +3,9 @@ import prisma from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 
 export async function POST(req: Request) {
-  const { name, email, password, businessType, services, salonAddress } = await req.json();
+  const { name, email, password, businessType, services, salonAddress, salonName } = await req.json();
 
-  if (!name || !email || !password || !businessType || !Array.isArray(services) || !salonAddress) {
+  if (!name || !email || !password || !businessType || !Array.isArray(services) || !salonAddress || !salonName) {
     return NextResponse.json({ error: "Missing fields" }, { status: 400 });
   }
 
@@ -45,7 +45,7 @@ export async function POST(req: Request) {
         password: hashed,
         salons: {
           create: {
-            name: `${name} ${salonType.name}`,
+            name: salonName, // <--- Use the provided salonName
             salonTypeId: salonType.id,
             address: salonAddress.address,
             city: salonAddress.city,

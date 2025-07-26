@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 
-type Step = "signup" | "business-type" | "services" | "address" | "done";
+type Step = "signup" | "business-type" | "services" | "salon-name" | "address" | "done";
 
 const SERVICES = {
   "hair salon": [
@@ -59,6 +59,9 @@ export default function BusinessSignupForm() {
   // Step 3: services selection
   const [services, setServices] = useState<string[]>([]);
 
+  // New: salon name
+  const [salonName, setSalonName] = useState("");
+
   // Step 4: address
   const [address, setAddress] = useState({
     address: "",
@@ -97,10 +100,17 @@ export default function BusinessSignupForm() {
     setStep("services");
   };
 
-  // Step 3 submit: go to address input
+  // Step 3 submit: go to salon name input
   const handleServicesSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!services.length) return;
+    setStep("salon-name");
+  };
+
+  // Step 3.5: salon name submit handler
+  const handleSalonNameSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!salonName.trim()) return;
     setStep("address");
   };
 
@@ -121,6 +131,7 @@ export default function BusinessSignupForm() {
         ...form,
         businessType,
         services,
+        salonName,
         salonAddress: address,
       }),
     });
@@ -146,7 +157,8 @@ export default function BusinessSignupForm() {
   // Step back handlers
   const handleBackFromBusinessType = () => setStep("signup");
   const handleBackFromServices = () => setStep("business-type");
-  const handleBackFromAddress = () => setStep("services");
+  const handleBackFromSalonName = () => setStep("services");
+  const handleBackFromAddress = () => setStep("salon-name");
 
   return (
     <div>
@@ -214,6 +226,27 @@ export default function BusinessSignupForm() {
           </div>
           {status === "duplicate" && <p className="text-yellow-600">Denne email er allerede oprettet.</p>}
           {status === "error" && <p className="text-red-600">Noget gik galt. Prøv igen.</p>}
+        </form>
+      )}
+
+      {step === "salon-name" && (
+        <form className="flex flex-col gap-4 max-w-md mx-auto mt-8" onSubmit={handleSalonNameSubmit}>
+          <h1 className="text-2xl font-bold mb-4">Salonnens navn</h1>
+          <Input
+            name="salonName"
+            placeholder="Navn på salon"
+            value={salonName}
+            onChange={e => setSalonName(e.target.value)}
+            required
+          />
+          <div className="flex gap-2">
+            <Button type="button" onClick={handleBackFromSalonName}>
+              Tilbage
+            </Button>
+            <Button type="submit" disabled={loading || !salonName.trim()}>
+              {loading ? "Fortsætter..." : "Næste trin"}
+            </Button>
+          </div>
         </form>
       )}
 
