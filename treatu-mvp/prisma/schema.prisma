@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -17,21 +11,72 @@ model Business {
   id        Int      @id @default(autoincrement())
   name      String
   email     String   @unique
-  password  String   // store hashed password
+  password  String
   createdAt DateTime @default(now())
-  deals     Deal[]
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+  salons    Salon[]
+}
+
+model Salon {
+  id          Int         @id @default(autoincrement())
+  name        String
+  business    Business    @relation(fields: [businessId], references: [id])
+  businessId  Int
+  salonType   SalonType   @relation(fields: [salonTypeId], references: [id])
+  salonTypeId Int
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  deletedAt   DateTime?
+  services    SalonService[]
+  address     String?
+  city        String?
+  zipCode     String?
+  country     String?
+  deals       Deal[]
+
+  @@index([businessId])
+  @@index([salonTypeId])
+  @@index([createdAt])
+}
+
+model SalonType {
+  id     Int     @id @default(autoincrement())
+  name   String  @unique
+  salons Salon[]
+}
+
+model Service {
+  id     Int     @id @default(autoincrement())
+  name   String  @unique
+  salons SalonService[]
+}
+
+model SalonService {
+  id        Int     @id @default(autoincrement())
+  salon     Salon   @relation(fields: [salonId], references: [id])
+  salonId   Int
+  service   Service @relation(fields: [serviceId], references: [id])
+  serviceId Int
+
+  @@unique([salonId, serviceId])
 }
 
 model Deal {
   id          Int      @id @default(autoincrement())
   title       String
   description String
-  price       Float
+  price       Decimal  
   quantity    Int
   expiryDate  DateTime
-  business    Business @relation(fields: [businessId], references: [id])
-  businessId  Int
+  salon       Salon    @relation(fields: [salonId], references: [id])
+  salonId     Int
   createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([salonId])
+  @@index([expiryDate])
+  @@index([createdAt])
 }
 
 model WaitingList {

@@ -3,9 +3,9 @@ import prisma from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 
 export async function POST(req: Request) {
-  const { name, email, password } = await req.json();
+  const { name, email, password, businessType, services, salonAddress } = await req.json();
 
-  if (!name || !email || !password) {
+  if (!name || !email || !password || !businessType || !Array.isArray(services) || !salonAddress) {
     return NextResponse.json({ error: "Missing fields" }, { status: 400 });
   }
 
@@ -18,13 +18,52 @@ export async function POST(req: Request) {
   // Hash password
   const hashed = await bcrypt.hash(password, 10);
 
-  // Create business
   try {
-    await prisma.business.create({
-      data: { name, email, password: hashed },
+    // Find or create SalonType
+    const salonType = await prisma.salonType.upsert({
+      where: { name: businessType },
+      update: {},
+      create: { name: businessType }
     });
+
+    // Find or create all needed services
+    const serviceRecords = await Promise.all(
+      services.map(async (serviceName: string) =>
+        prisma.service.upsert({
+          where: { name: serviceName },
+          update: {},
+          create: { name: serviceName }
+        })
+      )
+    );
+
+    // Create business, nested salon, and salonServices
+    await prisma.business.create({
+      data: {
+        name,
+        email,
+        password: hashed,
+        salons: {
+          create: {
+            name: `${name} ${salonType.name}`,
+            salonTypeId: salonType.id,
+            address: salonAddress.address,
+            city: salonAddress.city,
+            zipCode: salonAddress.zipCode,
+            country: salonAddress.country,
+            services: {
+              create: serviceRecords.map((srv) => ({
+                serviceId: srv.id,
+              })),
+            },
+          },
+        },
+      },
+    });
+
     return NextResponse.json({ success: true }, { status: 201 });
   } catch (err) {
+    console.error("Signup error:", err);
     return NextResponse.json({ error: "DB error" }, { status: 500 });
   }
 }
