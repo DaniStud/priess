@@ -17,7 +17,7 @@ export default function Home() {
         <Navigation/>
         <div className="flex justify-between ml-[10vw] max-w-[80vw]">
           <section>
-            <div className="hidden md:flex flex-col items-center justify-center text-6xl h-full">
+            <div className="hidden lg:flex flex-col items-center justify-center text-6xl h-full">
               <div>
                 <h2>KBH's SELFCARE PLATFORM</h2>
               </div>
