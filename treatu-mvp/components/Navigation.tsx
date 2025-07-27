@@ -18,7 +18,7 @@ export default function Navigation() {
             </NavigationMenu>
             
             {/* Mobile navigation: visible below lg, hides desktop nav */}
-            <div className="flex xl:hidden mr-10">
+            <div className="flex xl:hidden mr-10 ml-auto justify-end">
                 <MobileNav />
             </div>
         </nav>
