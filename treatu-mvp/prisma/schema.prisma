@@ -73,7 +73,7 @@ model Deal {
   salonId     Int
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-
+  durationMinutes Int 
   @@index([salonId])
   @@index([expiryDate])
   @@index([createdAt])

@@ -2,6 +2,14 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 async function main() {
+  // Delete all data for a clean slate
+  await prisma.deal.deleteMany();
+  await prisma.salonService.deleteMany();
+  await prisma.salon.deleteMany();
+  await prisma.business.deleteMany();
+  await prisma.waitingList.deleteMany();
+  await prisma.salonType.deleteMany();
+  await prisma.service.deleteMany();
   // 1. Create or connect a SalonType
   const salonType = await prisma.salonType.upsert({
     where: { name: "hair salon" },
@@ -9,9 +17,11 @@ async function main() {
     create: { name: "hair salon" },
   });
 
-  // 2. Create the Business with a nested Salon
-  const business = await prisma.business.create({
-    data: {
+  // 2. Upsert the Business with a nested Salon
+  const business = await prisma.business.upsert({
+    where: { email: "test@shop.com" },
+    update: {},
+    create: {
       name: "Test Shop",
       email: "test@shop.com",
       password: "hashed-password",
@@ -41,12 +51,15 @@ async function main() {
       quantity: 20,
       expiryDate: new Date(Date.now() + 86400000),
       salonId: salon.id,
+      durationMinutes: 90, // 1 hour 30 minutes
     },
   });
 
-  // 4. Add a waiting list entry
-  await prisma.waitingList.create({
-    data: { email: "customer@example.com" },
+  // 4. Upsert a waiting list entry
+  await prisma.waitingList.upsert({
+    where: { email: "customer@example.com" },
+    update: {},
+    create: { email: "customer@example.com" },
   });
 }
 
