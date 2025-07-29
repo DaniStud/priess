@@ -47,8 +47,10 @@ async function main() {
     data: {
       title: "50% Off",
       description: "Half price on everything!",
+      originalPrice: 20.00,
       price: 10.00,
       quantity: 20,
+      startDate: new Date(),
       expiryDate: new Date(Date.now() + 86400000),
       salonId: salon.id,
       durationMinutes: 90, // 1 hour 30 minutes

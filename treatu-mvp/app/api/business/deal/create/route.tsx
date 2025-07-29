@@ -1,5 +1,3 @@
-
-
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 
@@ -9,15 +7,16 @@ export async function POST(req: Request) {
     const {
       title,
       description,
+      originalPrice,
       price,
       quantity,
+      startDate,
       expiryDate,
       salonId,
       durationMinutes
     } = body;
 
-
-    if (!title || !description || !price || !quantity || !expiryDate || !salonId || !durationMinutes) {
+    if (!title || !description || !originalPrice || !price || !quantity || !startDate || !expiryDate || !salonId || !durationMinutes) {
       return NextResponse.json({ error: "Missing fields" }, { status: 400 });
     }
 
@@ -25,8 +24,10 @@ export async function POST(req: Request) {
       data: {
         title,
         description,
+        originalPrice,
         price,
         quantity,
+        startDate: new Date(startDate),
         expiryDate: new Date(expiryDate),
         durationMinutes,
         salon: {
