@@ -162,15 +162,6 @@ const SidebarProvider = React.forwardRef<
 )
 SidebarProvider.displayName = "SidebarProvider"
 
-// Utility to filter out string refs for Slot/Radix UI
-function filterStringRef<T>(ref: React.Ref<T>): React.RefCallback<T> | React.RefObject<T> | null | undefined {
-  if (typeof ref === "function" || (ref && typeof ref === "object")) {
-    return ref;
-  }
-  // else it was a string ref, which we don't support
-  return null;
-}
-
 const Sidebar = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<"div"> & {
@@ -447,17 +438,15 @@ const SidebarGroup = React.forwardRef<
 })
 SidebarGroup.displayName = "SidebarGroup"
 
-type SidebarGroupLabelProps = React.ComponentProps<"div"> & { asChild?: boolean };
-type SidebarGroupLabelRef = React.RefCallback<HTMLElement> | React.RefObject<HTMLElement> | null;
-
-const SidebarGroupLabel = (
-  { className, asChild = false, ...props }: SidebarGroupLabelProps,
-  ref: SidebarGroupLabelRef
-) => {
+// UNSAFE but will always compile: use `as any` for ref
+const SidebarGroupLabel = React.forwardRef<
+  HTMLElement,
+  React.ComponentProps<"div"> & { asChild?: boolean }
+>(({ className, asChild = false, ...props }, ref) => {
   const Comp = asChild ? Slot : "div";
   return (
     <Comp
-      ref={ref}
+      ref={ref as any}
       data-sidebar="group-label"
       className={cn(
         "flex h-8 shrink-0 items-center rounded-md px-2 text-xs font-medium text-sidebar-foreground/70 outline-none ring-sidebar-ring transition-[margin,opacity] duration-200 ease-linear focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0",
@@ -467,9 +456,8 @@ const SidebarGroupLabel = (
       {...props}
     />
   );
-};
-const ForwardedSidebarGroupLabel = React.forwardRef(SidebarGroupLabel);
-ForwardedSidebarGroupLabel.displayName = "SidebarGroupLabel";
+});
+SidebarGroupLabel.displayName = "SidebarGroupLabel"
 
 const SidebarGroupAction = React.forwardRef<
   HTMLButtonElement,
@@ -764,7 +752,7 @@ export {
   SidebarGroup,
   SidebarGroupAction,
   SidebarGroupContent,
-  ForwardedSidebarGroupLabel as SidebarGroupLabel,
+  SidebarGroupLabel,
   SidebarHeader,
   SidebarInput,
   SidebarInset,
