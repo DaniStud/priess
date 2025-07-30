@@ -162,6 +162,15 @@ const SidebarProvider = React.forwardRef<
 )
 SidebarProvider.displayName = "SidebarProvider"
 
+// Utility to filter out string refs for Slot/Radix UI
+function filterStringRef<T>(ref: React.Ref<T>): React.RefCallback<T> | React.RefObject<T> | null | undefined {
+  if (typeof ref === "function" || (ref && typeof ref === "object")) {
+    return ref;
+  }
+  // else it was a string ref, which we don't support
+  return null;
+}
+
 const Sidebar = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<"div"> & {
@@ -438,21 +447,13 @@ const SidebarGroup = React.forwardRef<
 })
 SidebarGroup.displayName = "SidebarGroup"
 
-// --- Minimal patch: filter out string refs ---
-
-function filterStringRef<T>(ref: React.Ref<T>): React.RefCallback<T> | React.RefObject<T> | null | undefined {
-  if (typeof ref === "function" || (ref && typeof ref === "object")) {
-    return ref;
-  }
-  return null;
-}
-
 const SidebarGroupLabel = React.forwardRef<
   HTMLElement,
   React.ComponentProps<"div"> & { asChild?: boolean }
 >(({ className, asChild = false, ...props }, ref) => {
   const Comp = asChild ? Slot : "div"
 
+  // Filter out string refs for Slot
   return (
     <Comp
       ref={filterStringRef(ref)}
@@ -753,3 +754,30 @@ const SidebarMenuSubButton = React.forwardRef<
   )
 })
 SidebarMenuSubButton.displayName = "SidebarMenuSubButton"
+
+export {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupAction,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarInput,
+  SidebarInset,
+  SidebarMenu,
+  SidebarMenuAction,
+  SidebarMenuBadge,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarMenuSkeleton,
+  SidebarMenuSub,
+  SidebarMenuSubButton,
+  SidebarMenuSubItem,
+  SidebarProvider,
+  SidebarRail,
+  SidebarSeparator,
+  SidebarTrigger,
+  useSidebar,
+}
