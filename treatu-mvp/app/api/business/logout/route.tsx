@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 export async function POST() {
   try {
-    const response = NextResponse.redirect("/", 302);
+    const response = NextResponse.json({ success: true });
     response.cookies.set("treatu_token", "", {
       httpOnly: true,
       path: "/",
