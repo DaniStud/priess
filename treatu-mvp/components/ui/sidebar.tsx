@@ -438,17 +438,24 @@ const SidebarGroup = React.forwardRef<
 })
 SidebarGroup.displayName = "SidebarGroup"
 
+// --- Minimal patch: filter out string refs ---
+
+function filterStringRef<T>(ref: React.Ref<T>): React.RefCallback<T> | React.RefObject<T> | null | undefined {
+  if (typeof ref === "function" || (ref && typeof ref === "object")) {
+    return ref;
+  }
+  return null;
+}
+
 const SidebarGroupLabel = React.forwardRef<
   HTMLElement,
   React.ComponentProps<"div"> & { asChild?: boolean }
 >(({ className, asChild = false, ...props }, ref) => {
   const Comp = asChild ? Slot : "div"
 
-  // Restrict ref to object/callback only (no string refs)
-  type NonStringRef<T> = T extends string ? never : T
   return (
     <Comp
-      ref={ref as NonStringRef<React.Ref<HTMLElement>>}
+      ref={filterStringRef(ref)}
       data-sidebar="group-label"
       className={cn(
         "flex h-8 shrink-0 items-center rounded-md px-2 text-xs font-medium text-sidebar-foreground/70 outline-none ring-sidebar-ring transition-[margin,opacity] duration-200 ease-linear focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0",
@@ -745,31 +752,4 @@ const SidebarMenuSubButton = React.forwardRef<
     />
   )
 })
-SidebarMenuSubButton.displayName = "SidebarMenuSubButton"
-
-export {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarGroup,
-  SidebarGroupAction,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarHeader,
-  SidebarInput,
-  SidebarInset,
-  SidebarMenu,
-  SidebarMenuAction,
-  SidebarMenuBadge,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarMenuSkeleton,
-  SidebarMenuSub,
-  SidebarMenuSubButton,
-  SidebarMenuSubItem,
-  SidebarProvider,
-  SidebarRail,
-  SidebarSeparator,
-  SidebarTrigger,
-  useSidebar,
-}
+SidebarMenuSubButton.displayName = "Sidebar
