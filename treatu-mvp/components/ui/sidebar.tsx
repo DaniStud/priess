@@ -447,16 +447,17 @@ const SidebarGroup = React.forwardRef<
 })
 SidebarGroup.displayName = "SidebarGroup"
 
-const SidebarGroupLabel = React.forwardRef<
-  HTMLElement,
-  React.ComponentProps<"div"> & { asChild?: boolean }
->(({ className, asChild = false, ...props }, ref) => {
-  const Comp = asChild ? Slot : "div"
+type SidebarGroupLabelProps = React.ComponentProps<"div"> & { asChild?: boolean };
+type SidebarGroupLabelRef = React.RefCallback<HTMLElement> | React.RefObject<HTMLElement> | null;
 
-  // Filter out string refs for Slot
+const SidebarGroupLabel = (
+  { className, asChild = false, ...props }: SidebarGroupLabelProps,
+  ref: SidebarGroupLabelRef
+) => {
+  const Comp = asChild ? Slot : "div";
   return (
     <Comp
-      ref={filterStringRef(ref)}
+      ref={ref}
       data-sidebar="group-label"
       className={cn(
         "flex h-8 shrink-0 items-center rounded-md px-2 text-xs font-medium text-sidebar-foreground/70 outline-none ring-sidebar-ring transition-[margin,opacity] duration-200 ease-linear focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0",
@@ -465,9 +466,10 @@ const SidebarGroupLabel = React.forwardRef<
       )}
       {...props}
     />
-  )
-})
-SidebarGroupLabel.displayName = "SidebarGroupLabel"
+  );
+};
+const ForwardedSidebarGroupLabel = React.forwardRef(SidebarGroupLabel);
+ForwardedSidebarGroupLabel.displayName = "SidebarGroupLabel";
 
 const SidebarGroupAction = React.forwardRef<
   HTMLButtonElement,
@@ -762,7 +764,7 @@ export {
   SidebarGroup,
   SidebarGroupAction,
   SidebarGroupContent,
-  SidebarGroupLabel,
+  ForwardedSidebarGroupLabel as SidebarGroupLabel,
   SidebarHeader,
   SidebarInput,
   SidebarInset,
