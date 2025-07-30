@@ -752,4 +752,4 @@ const SidebarMenuSubButton = React.forwardRef<
     />
   )
 })
-SidebarMenuSubButton.displayName = "Sidebar
+SidebarMenuSubButton.displayName = "SidebarMenuSubButton"
