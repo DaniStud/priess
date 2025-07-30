@@ -444,9 +444,11 @@ const SidebarGroupLabel = React.forwardRef<
 >(({ className, asChild = false, ...props }, ref) => {
   const Comp = asChild ? Slot : "div"
 
+  // Restrict ref to object/callback only (no string refs)
+  type NonStringRef<T> = T extends string ? never : T
   return (
     <Comp
-      ref={ref as React.Ref<HTMLElement>}
+      ref={ref as NonStringRef<React.Ref<HTMLElement>>}
       data-sidebar="group-label"
       className={cn(
         "flex h-8 shrink-0 items-center rounded-md px-2 text-xs font-medium text-sidebar-foreground/70 outline-none ring-sidebar-ring transition-[margin,opacity] duration-200 ease-linear focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0",
