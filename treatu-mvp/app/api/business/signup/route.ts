@@ -62,8 +62,8 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json({ success: true }, { status: 201 });
-  } catch (err) {
+  } catch (err: any) {
     console.error("Signup error:", err);
-    return NextResponse.json({ error: "DB error" }, { status: 500 });
+    return NextResponse.json({ error: err?.message || String(err) }, { status: 500 });
   }
 }
