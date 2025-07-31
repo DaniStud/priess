@@ -5,7 +5,7 @@ import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription } 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-export default function CreateDealForm({ salonId }: { salonId: number }) {
+export default function CreateDealForm({ salonId }: { salonId: number | null }) {
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState({
     title: "",
@@ -30,6 +30,11 @@ export default function CreateDealForm({ salonId }: { salonId: number }) {
     setLoading(true);
     setError("");
     setSuccess("");
+    if (salonId == null) {
+      setError("Salon ID is missing. Cannot create deal.");
+      setLoading(false);
+      return;
+    }
     try {
       const res = await fetch("/api/business/deal/create", {
         method: "POST",
@@ -70,23 +75,23 @@ export default function CreateDealForm({ salonId }: { salonId: number }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="default">Create Deal</Button>
+        <Button variant="default" disabled={salonId == null}>Create Deal</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogTitle>Create a New Deal</DialogTitle>
         <DialogDescription>Fill in the details below to create a new deal.</DialogDescription>
         <form onSubmit={handleSubmit} className="space-y-3">
-          <Input name="title" placeholder="Title" value={form.title} onChange={handleChange} required />
-          <Input name="description" placeholder="Description" value={form.description} onChange={handleChange} required />
-          <Input name="originalPrice" placeholder="Original Price" type="number" value={form.originalPrice} onChange={handleChange} required />
-          <Input name="price" placeholder="Deal Price" type="number" value={form.price} onChange={handleChange} required />
-          <Input name="quantity" placeholder="Quantity" type="number" value={form.quantity} onChange={handleChange} required />
-          <Input name="startDate" placeholder="Start Date" type="datetime-local" value={form.startDate} onChange={handleChange} required />
-          <Input name="expiryDate" placeholder="Expiry Date" type="datetime-local" value={form.expiryDate} onChange={handleChange} required />
-          <Input name="durationMinutes" placeholder="Duration (minutes)" type="number" value={form.durationMinutes} onChange={handleChange} required />
+          <Input name="title" placeholder="Title" value={form.title} onChange={handleChange} required disabled={salonId == null} />
+          <Input name="description" placeholder="Description" value={form.description} onChange={handleChange} required disabled={salonId == null} />
+          <Input name="originalPrice" placeholder="Original Price" type="number" value={form.originalPrice} onChange={handleChange} required disabled={salonId == null} />
+          <Input name="price" placeholder="Deal Price" type="number" value={form.price} onChange={handleChange} required disabled={salonId == null} />
+          <Input name="quantity" placeholder="Quantity" type="number" value={form.quantity} onChange={handleChange} required disabled={salonId == null} />
+          <Input name="startDate" placeholder="Start Date" type="datetime-local" value={form.startDate} onChange={handleChange} required disabled={salonId == null} />
+          <Input name="expiryDate" placeholder="Expiry Date" type="datetime-local" value={form.expiryDate} onChange={handleChange} required disabled={salonId == null} />
+          <Input name="durationMinutes" placeholder="Duration (minutes)" type="number" value={form.durationMinutes} onChange={handleChange} required disabled={salonId == null} />
           {error && <div className="text-red-500 text-sm">{error}</div>}
           {success && <div className="text-green-600 text-sm">{success}</div>}
-          <Button type="submit" disabled={loading}>{loading ? "Creating..." : "Create Deal"}</Button>
+          <Button type="submit" disabled={loading || salonId == null}>{loading ? "Creating..." : "Create Deal"}</Button>
         </form>
       </DialogContent>
     </Dialog>
