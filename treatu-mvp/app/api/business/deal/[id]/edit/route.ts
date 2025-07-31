@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 
-export async function PUT(req: Request, { params }: { params: { id: string } }) {
-  const id = Number(params.id);
+export async function PUT(req: Request, context: { params: { id: string } }) {
+  const id = Number(context.params.id);
   if (!id) {
     return NextResponse.json({ error: "Missing or invalid deal id" }, { status: 400 });
   }
