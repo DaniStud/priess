@@ -1,8 +1,27 @@
+
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 
+// Simple in-memory rate limiter (per IP)
+const RATE_LIMIT_WINDOW = 60 * 1000; // 1 minute
+const RATE_LIMIT_MAX = 5; // max 5 attempts per window
+const signupAttempts: Record<string, { count: number; last: number }> = {};
+
 export async function POST(req: Request) {
+  // Rate limiting by IP
+  const ip = req.headers.get("x-forwarded-for")?.split(",")[0] || "unknown";
+  const now = Date.now();
+  if (!signupAttempts[ip] || now - signupAttempts[ip].last > RATE_LIMIT_WINDOW) {
+    signupAttempts[ip] = { count: 1, last: now };
+  } else {
+    signupAttempts[ip].count++;
+    signupAttempts[ip].last = now;
+  }
+  if (signupAttempts[ip].count > RATE_LIMIT_MAX) {
+    return NextResponse.json({ error: "Too many signup attempts. Please try again later." }, { status: 429 });
+  }
+
   const { name, email, password, businessType, services, salonAddress, salonName } = await req.json();
 
   if (!name || !email || !password || !businessType || !Array.isArray(services) || !salonAddress || !salonName) {

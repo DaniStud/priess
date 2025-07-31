@@ -1,10 +1,29 @@
+
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
+// Simple in-memory rate limiter (per IP)
+const RATE_LIMIT_WINDOW = 60 * 1000; // 1 minute
+const RATE_LIMIT_MAX = 5; // max 5 attempts per window
+const loginAttempts: Record<string, { count: number; last: number }> = {};
+
 export async function POST(req: Request) {
   try {
+    // Rate limiting by IP
+    const ip = req.headers.get("x-forwarded-for")?.split(",")[0] || "unknown";
+    const now = Date.now();
+    if (!loginAttempts[ip] || now - loginAttempts[ip].last > RATE_LIMIT_WINDOW) {
+      loginAttempts[ip] = { count: 1, last: now };
+    } else {
+      loginAttempts[ip].count++;
+      loginAttempts[ip].last = now;
+    }
+    if (loginAttempts[ip].count > RATE_LIMIT_MAX) {
+      return NextResponse.json({ error: "Too many login attempts. Please try again later." }, { status: 429 });
+    }
+
     const { email, password } = await req.json();
     if (!email || !password) {
       return NextResponse.json({ error: "Missing credentials" }, { status: 400 });
