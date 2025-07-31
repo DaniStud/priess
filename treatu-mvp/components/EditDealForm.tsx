@@ -63,7 +63,30 @@ export default function EditDealForm({ deal, onUpdated }: { deal: any, onUpdated
       <DialogTrigger asChild>
         <div>
         <div>{deal.title}</div>
-        <Button variant="secondary">Edit:</Button>
+        <div className="flex justify-between gap-2 mt-2">
+          <Button variant="secondary">Edit:</Button>
+          <Button
+            className="dark"
+            variant="destructive"
+            type="button"
+            onClick={async (e) => {
+              e.stopPropagation();
+              if (!confirm(`Are you sure you want to delete '${deal.title}'?`)) return;
+              try {
+                const res = await fetch(`/api/business/deal/${deal.id}/delete`, { method: "DELETE" });
+                if (!res.ok) {
+                  alert("Failed to delete deal");
+                } else {
+                  if (onUpdated) onUpdated();
+                }
+              } catch {
+                alert("Server error");
+              }
+            }}
+          >
+            Delete
+          </Button>
+        </div>
         </div>
       </DialogTrigger>
       <DialogContent>
