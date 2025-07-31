@@ -1,3 +1,7 @@
+
+import { Button } from "@/components/ui/button";
+import CreateDealForm from "@/components/CreateDealForm";
+
 export default function DashboardHome() {
   return (
     <div className="card p-8 rounded-lg bg-white shadow">
@@ -11,16 +15,14 @@ export default function DashboardHome() {
       <div className="grid grid-cols-2 gap-4 min-h-64">
         <div className="bg-gray-100 p-4 rounded">
           <div className="flex justify-between max-w-[80%] ml-10">
-            <button>Opret ny Deal</button>
-            <button>Overblik</button>
-            <button>Rediger Live Deals</button>
-
+            <CreateDealForm salonId={2} />
+            <Button>Rediger Deals</Button>
           </div>
 
           <div className="flex justify-between max-w-[80%] ml-10 mt-10">
             <div>+</div>
             <h3>Tilføj nyt tilbud</h3>
-            <button>start</button>
+            <Button>start</Button>
           </div>
 
           <div></div>

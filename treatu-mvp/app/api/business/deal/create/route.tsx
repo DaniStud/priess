@@ -31,13 +31,14 @@ export async function POST(req: Request) {
         expiryDate: new Date(expiryDate),
         durationMinutes,
         salon: {
-          connect: { id: salonId }
+          connect: { id: Number(salonId) }
         }
       }
     });
 
     return NextResponse.json(deal, { status: 201 });
   } catch (e: any) {
+    console.error(e);
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }
