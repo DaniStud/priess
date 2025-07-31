@@ -141,10 +141,77 @@ const DashboardPage = () => {
 
             <div></div>
           </div>
-          <div className="bg-gray-100 p-4 rounded">
-            <div>Kalender</div>
-            <div>ledige tider</div>
-            <div>Indtjening</div>
+          <div className="relative bg-gray-100 p-4 rounded pointer-events-none select-none overflow-hidden">
+            <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center rounded z-10">
+              <span className="text-white text-2xl font-bold">Kommer snart</span>
+            </div>
+            <div className="relative z-0 filter blur-[2px] pointer-events-none select-none">
+              {/* Calendar Icon */}
+              <div className="flex justify-center mb-4">
+                {/* Calendar visual matching the pasted image */}
+                <div className="relative w-[340px] bg-white rounded-lg shadow-inner p-4 pt-6">
+                  <span className="absolute right-4 top-2 text-black text-sm font-normal">Se kalender</span>
+                  {/* Weekday headers */}
+                  <div className="grid grid-cols-7 gap-x-2 mb-1">
+                    {["Su","Mo","Tu","We","Th","Fr","Sa"].map((d, i) => (
+                      <div key={d} className={`text-center text-base ${i === 0 ? 'font-bold text-[#2d253a]' : 'font-normal text-[#8c85a3]'}`}>{d}</div>
+                    ))}
+                  </div>
+                  {/* Days grid */}
+                  <div className="grid grid-cols-7 gap-x-2 gap-y-1">
+                    {Array.from({length: 31 + 1}).map((_, idx) => {
+                      // Days start on Su, so 1st is col 0
+                      if (idx === 0) {
+                        // Empty cell for alignment (Su is 1st)
+                        return <div key="empty0"></div>;
+                      }
+                      const day = idx;
+                      // Days to circle (from image): 2,3,6,10,11,12,13,16,17,18,19
+                      const purpleDays = [2,10,11,12,13,16,17,18,19];
+                      const blackDays = [3,6];
+                      let border = "";
+                      let text = "text-[#8c85a3]";
+                      if (day === 1) {
+                        text = "font-bold text-[#2d253a]";
+                      }
+                      if (purpleDays.includes(day)) {
+                        border = "border-2 border-[#b9a6f6]";
+                      } else if (blackDays.includes(day)) {
+                        border = "border-2 border-[#2d253a]";
+                      }
+                      return (
+                        <div key={day} className={`w-8 h-8 flex items-center justify-center rounded-full ${border} bg-transparent ${text}`}>{day}</div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+              {/* Booked Times Section */}
+              <div className="mb-4">
+                <h3 className="font-semibold text-lg mb-2">Bookede tider i kalender</h3>
+                {/* Progress Bar */}
+                <div className="w-full bg-gray-300 rounded-full h-3 mb-2">
+                  <div className="bg-blue-400 h-3 rounded-full" style={{ width: '75%' }}></div>
+                </div>
+                <div className="flex justify-between text-sm text-gray-500 mb-1">
+                  <span>75% booket</span>
+                  <span>15/20 tider</span>
+                </div>
+                <div className="text-xs text-gray-400">11.250 kr. tjent ud af 15.000 kr.</div>
+              </div>
+              {/* Expected Earnings Section */}
+              <div className="mt-6">
+                <h3 className="font-semibold text-lg mb-2">Forventet indtjening</h3>
+                <div className="flex items-center justify-between">
+                  <span className="text-xl font-bold text-gray-500">15.000 kr.</span>
+                  <button className="ml-2 p-2 rounded-full bg-gray-200">
+                    <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="text-gray-500">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
