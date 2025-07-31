@@ -4,12 +4,16 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import CreateDealForm from "@/components/CreateDealForm";
+import EditDealForm from "@/components/EditDealForm";
 import { useEffect, useState } from "react";
 
-export default function DashboardHome() {
+const DashboardPage = () => {
   const [salonId, setSalonId] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [deals, setDeals] = useState<any[]>([]);
+  const [dealsLoading, setDealsLoading] = useState(false);
+  const [showEdit, setShowEdit] = useState(false);
 
   useEffect(() => {
     fetch("/api/business/me")
@@ -21,6 +25,16 @@ export default function DashboardHome() {
       .catch(() => setError("Failed to fetch salon info"))
       .finally(() => setLoading(false));
   }, []);
+
+  useEffect(() => {
+    if (!salonId) return;
+    setDealsLoading(true);
+    fetch(`/api/business/deal/list?salonId=${salonId}`)
+      .then((res) => res.json())
+      .then((data) => setDeals(Array.isArray(data) ? data : []))
+      .catch(() => setDeals([]))
+      .finally(() => setDealsLoading(false));
+  }, [salonId]);
 
   return (
     <div className="card p-8 rounded-lg bg-white shadow">
@@ -41,14 +55,59 @@ export default function DashboardHome() {
             ) : (
               <CreateDealForm salonId={salonId} />
             )}
-            <Button>Rediger Deals</Button>
+            <Button onClick={() => setShowEdit(true)}>Rediger Deals</Button>
           </div>
 
-          <div className="flex justify-between max-w-[80%] ml-10 mt-10">
-            <div>+</div>
-            <h3>Tilføj nyt tilbud</h3>
-            <Button>start</Button>
-          </div>
+          {/* Edit Deals Modal */}
+          {showEdit && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+              <div className="bg-white rounded-lg p-6 max-w-xl w-full relative">
+                <button className="absolute top-2 right-2 text-gray-500 hover:text-black" onClick={() => setShowEdit(false)}>&times;</button>
+                <h2 className="text-xl font-bold mb-4">Rediger Deals</h2>
+                {dealsLoading ? (
+                  <div>Loading deals...</div>
+                ) : deals.length === 0 ? (
+                  <div className="text-gray-400">No deals found.</div>
+                ) : (
+                  <div className="space-y-4 max-h-96 overflow-y-auto">
+                    {deals.map((deal) => (
+                      <EditDealForm key={deal.id} deal={deal} onUpdated={() => setShowEdit(false)} />
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+
+
+            {dealsLoading ? (
+              <div className="ml-10 mt-10">Loading deals...</div>
+            ) : deals.length === 0 ? (
+              <div className="ml-10 mt-10 text-gray-400">No deals found.</div>
+            ) : (
+              deals.map((deal) => {
+                const now = new Date();
+                const start = new Date(deal.startDate);
+                const end = new Date(deal.expiryDate);
+                const isLive = now >= start && now <= end;
+                return (
+                  <div key={deal.id} className="flex justify-between max-w-[80%] ml-10 mt-10 items-center border-b pb-2">
+                    <div className="w-16 h-16 bg-gray-200 rounded object-cover flex items-center justify-center text-xs text-gray-400">img</div>
+                    <div className="flex-1 ml-4">
+                      <h3 className="font-semibold">{deal.title}</h3>
+                      <p className="text-xs text-gray-500">
+                        {new Date(deal.startDate).toLocaleDateString()} - {new Date(deal.expiryDate).toLocaleDateString()}
+                      </p>
+                    </div>
+                    <Button variant={isLive ? "default" : "secondary"} className="mx-2" disabled>
+                      {isLive ? "Live" : "Offline"}
+                    </Button>
+                    <div className="font-bold text-lg">{deal.price} kr</div>
+                  </div>
+                );
+              })
+            )}
 
           <div></div>
         </div>
@@ -60,4 +119,6 @@ export default function DashboardHome() {
       </div>
     </div>
   );
-}
+};
+
+export default DashboardPage;
