@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 
 const DashboardPage = () => {
   const [salonId, setSalonId] = useState<number | null>(null);
+  const [salonName, setSalonName] = useState<string>("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [deals, setDeals] = useState<any[]>([]);
@@ -21,8 +22,10 @@ const DashboardPage = () => {
     fetch("/api/business/me")
       .then((res) => res.json())
       .then((data) => {
-        if (data.salonId) setSalonId(data.salonId);
-        else {
+        if (data.salonId) {
+          setSalonId(data.salonId);
+          setSalonName(data.salonName || "");
+        } else {
           setError("Salon ID not found");
           setShowLoginDialog(true);
         }
@@ -65,7 +68,24 @@ const DashboardPage = () => {
       </Dialog>
       <div className="card p-8 rounded-lg bg-white shadow">
         <div className="ml-10 flex justify-between max-w-[80%]">
-          <div>1</div>
+          <div className="flex items-center">
+            <span className="flex items-center justify-center w-12 h-12 rounded-full bg-gray-200 border border-gray-400 mr-3">
+              {/* Empty profile pic vector */}
+              <svg className="w-8 h-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+                <circle cx="12" cy="8" r="4" stroke="currentColor" />
+                <path d="M4 20c0-4 4-6 8-6s8 2 8 6" stroke="currentColor" />
+              </svg>
+            </span>
+            <h3 className="text-lg font-semibold text-gray-700">
+              {loading ? (
+                <span className="text-gray-400">Loading...</span>
+              ) : error ? (
+                <span className="text-red-500">-</span>
+              ) : (
+                salonName ? salonName : <span className="text-gray-400">No salon</span>
+              )}
+            </h3>
+          </div>
           <div className="group relative flex items-center w-full max-w-xs border border-gray-400 rounded-full px-2 py-1 bg-white overflow-hidden cursor-pointer">
             <span className="flex items-center justify-center w-10 h-10 rounded-full bg-[#8c85a3] mr-2">
               <svg className="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">

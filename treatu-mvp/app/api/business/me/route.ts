@@ -17,14 +17,16 @@ export async function GET() {
     const businessId = payload.businessId;
     const business = await prisma.business.findUnique({
       where: { id: businessId },
-      select: { id: true, email: true, salons: { select: { id: true } } }
+      select: { id: true, email: true, salons: { select: { id: true, name: true } } }
     });
     if (!business) {
       return NextResponse.json({ error: "Not found" }, { status: 404 });
     }
-    // Return the first salonId if exists
-    const salonId = business.salons[0]?.id || null;
-    return NextResponse.json({ id: business.id, email: business.email, salonId });
+    // Return the first salonId and salonName if exists
+    const salon = business.salons[0] || null;
+    const salonId = salon?.id || null;
+    const salonName = salon?.name || null;
+    return NextResponse.json({ id: business.id, email: business.email, salonId, salonName });
   } catch {
     return NextResponse.json({ error: "Invalid token" }, { status: 401 });
   }
