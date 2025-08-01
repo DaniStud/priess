@@ -86,7 +86,7 @@ const DashboardPage = () => {
               )}
             </h3>
           </div>
-          <div className="group relative flex items-center w-full max-w-xs border border-gray-400 rounded-full px-2 py-1 bg-white overflow-hidden cursor-pointer">
+          <div className="group relative lg:flex hidden items-center w-full max-w-xs border border-gray-400 rounded-full px-2 py-1 bg-white overflow-hidden cursor-pointer">
             <span className="flex items-center justify-center w-10 h-10 rounded-full bg-[#8c85a3] mr-2">
               <svg className="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <circle cx="11" cy="11" r="8" stroke="#2d253a" strokeWidth="2" />
@@ -100,12 +100,12 @@ const DashboardPage = () => {
           </div>
           <button
             type="button"
-            className="group relative flex items-center px-7 py-3 rounded-full bg-[#8c85a3] border border-gray-700 focus:outline-none"
+            className="group relative lg:flex hidden items-center px-7 py-3 rounded-full bg-[#8c85a3] border border-gray-700 focus:outline-none"
             style={{ minWidth: '220px' }}
             tabIndex={-1}
             disabled
           >
-            <span className="flex items-center justify-center w-7 h-7 rounded-full mr-2 opacity-40">
+            <span className="flex items-center justify-center w-7 h-7 rounded-full mr-2">
               <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24">
                 <line x1="12" y1="5" x2="12" y2="19" stroke="white" strokeWidth="3" strokeLinecap="round" />
                 <line x1="5" y1="12" x2="19" y2="12" stroke="white" strokeWidth="3" strokeLinecap="round" />
@@ -117,9 +117,9 @@ const DashboardPage = () => {
             </div>
           </button>
         </div>
-        <h1 className="mt-20 mb-10 text-3xl font-bold mb-4">Dashboard!</h1>
+        <h1 className="mt-20 mb-10 text-3xl font-bold mb-4">Dashboard</h1>
 
-        <div className="grid grid-cols-2 gap-4 min-h-64">
+        <div className="lg:grid lg:grid-cols-2 gap-4 min-h-64">
           <div className="bg-gray-100 p-4 rounded">
             <div className="flex justify-between max-w-[80%] ml-10">
               {loading ? (
