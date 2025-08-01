@@ -26,35 +26,45 @@ export default function AppSidebar() {
         <SidebarMenu className="flex flex-col gap-2 px-4">
           <SidebarMenuItem>
             <Link href="/dashboard">
-              <SidebarMenuButton className="flex items-center gap-3 py-3 px-3 text-base hover:bg-[#5e3e93] rounded-lg transition">
+              <SidebarMenuButton className="flex items-center gap-3 py-3 px-3 text-base rounded-lg transition">
                 <Home size={20} /> Dashboard
               </SidebarMenuButton>
             </Link>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <Link href="/dashboard/calendar">
-              <SidebarMenuButton className="flex items-center gap-3 py-3 px-3 text-base hover:bg-[#5e3e93] rounded-lg transition">
+            <div className="relative group">
+              <Link href="#">
+              <SidebarMenuButton className="flex items-center gap-3 py-3 px-3 text-base rounded-lg transition opacity-40 pointer-events-none">
                 <CalendarDays size={20} /> Calendar & times
               </SidebarMenuButton>
-            </Link>
+              </Link>
+              <div className="absolute inset-0 flex items-center justify-center bg-[#482e6e]/80 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
+              <span className="text-xs font-semibold text-white px-2 py-1 rounded opacity-80">Coming soon</span>
+              </div>
+            </div>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <Link href="/dashboard/notifications">
-              <SidebarMenuButton className="flex items-center gap-3 py-3 px-3 text-base hover:bg-[#5e3e93] rounded-lg transition">
+            <div className="relative group">
+            <Link href="#">
+              <SidebarMenuButton className="flex opacity-40 items-center gap-3 py-3 px-3 text-base rounded-lg transition">
                 <Bell size={20} /> Notifications
               </SidebarMenuButton>
             </Link>
+                          <div className="absolute inset-0 flex items-center justify-center bg-[#482e6e]/80 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
+              <span className="text-xs font-semibold text-white px-2 py-1 rounded opacity-80">Coming soon</span>
+              </div>
+            </div>
           </SidebarMenuItem>
           <SidebarMenuItem>
             <Link href="/dashboard/settings">
-              <SidebarMenuButton className="flex items-center gap-3 py-3 px-3 text-base hover:bg-[#5e3e93] rounded-lg transition">
+              <SidebarMenuButton className="flex items-center gap-3 py-3 px-3 text-base rounded-lg transition">
                 <Settings size={20} /> Settings
               </SidebarMenuButton>
             </Link>
           </SidebarMenuItem>
           <SidebarMenuItem>
             <Link href="/logout">
-              <SidebarMenuButton className="flex items-center gap-3 py-3 px-3 text-base hover:bg-[#5e3e93] rounded-lg transition">
+              <SidebarMenuButton className="flex items-center gap-3 py-3 px-3 text-base rounded-lg transition">
                 <LogOut size={20} /> Logout
               </SidebarMenuButton>
             </Link>
@@ -63,15 +73,28 @@ export default function AppSidebar() {
       </SidebarContent>
       {/* Push footer to bottom */}
       <SidebarFooter className="flex flex-col gap-4 px-8 pb-6 mt-auto">
-        <div className="flex items-center gap-3 py-2">
-          <User size={20} />
-          <span className="text-base">Min konto</span>
+        <div className="relative group">
+          <div className="flex items-center gap-3 py-2">
+            <User size={20} />
+            <span className="text-base opacity-40">Min konto</span>
+          </div>
+          <div className="absolute inset-0 flex items-center justify-center bg-[#482e6e]/80 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
+            <span className="text-xs font-semibold text-white px-2 py-1 rounded opacity-80">Coming soon</span>
+          </div>
         </div>
-        <div className="flex items-center gap-3 py-2">
-          <HelpCircle size={20} />
-          <span className="text-base">Hjælp</span>
+        <div className="relative group">
+          <div className="flex items-center gap-3 py-2">
+            <HelpCircle size={20} />
+            <span className="text-base opacity-40">Hjælp</span>
+          </div>
+          <div className="absolute inset-0 flex items-center justify-center bg-[#482e6e]/80 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
+            <span className="text-xs font-semibold text-white px-2 py-1 rounded opacity-80">Coming soon</span>
+          </div>
         </div>
+        
       </SidebarFooter>
     </Sidebar>
   );
 }
+
+
