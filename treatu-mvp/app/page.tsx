@@ -11,14 +11,16 @@ export default function Home() {
   const [showSignup, setShowSignup] = useState(false);
   return (
     <>
-      <main className="">
+      <main
+        className="overflow-auto bg-[url('/image/70procent.png')] bg-no-repeat bg-left bg-[length:auto_130vh] bg-opacity-100"
+      >
         <Navigation/>
         <div className="flex justify-between ml-[10vw] max-w-[80vw]">
           <section>
             <div className="hidden lg:flex flex-col items-center justify-center text-6xl h-full">
               <div>
                 <h2
-                  className="font-extrabold text-6xl text-center drop-shadow-[4px_4px_0_rgba(120,120,120,0.7)]"
+                  className="font-extrabold text-7xl text-center drop-shadow-[4px_4px_0_rgba(120,120,120,0.7)]"
                 >
                   KBH'S SELFCARE<br />PLATFORM
                 </h2>
@@ -45,16 +47,28 @@ export default function Home() {
               >
                 {showSignup ? "Back to login" : "Sign up your business today!"}
               </Button>
-              <div className="flex justify-between mt-10">
-                <a href="#" className="flex items-center gap-2">
-                  <img src="..\..\public\image\Icon-instagram-login-botton.svg" alt="Instagram"/> 
+
+
+              <div className="flex justify-between max-w-[80%] m-auto mt-8">
+
+              <div className="max-w-16">
+                <a href="#">
+                  <img className="hover:transform hover:scale-105" src=" \image\insta-1.png" alt="" />
+                  </a>
+              </div>
+
+              <div className="max-w-16">
+                <a href="#">
+              <img className="hover:transform hover:scale-105" src=" \image\fb-1.png" alt="" />
                 </a>
-                <a href="#" className="flex items-center gap-2">
-                  <img src="/image/icon-facebook-login-botton.svg" alt="Facebook" className="w-6 h-6" /> Facebook
+
+              </div>
+              <div className="max-w-16">
+                <a href="#">
+              <img className="hover:transform hover:scale-105" src=" \image\web-1.png" alt="" />
                 </a>
-                <a href="#" className="flex items-center gap-2">
-                  <img src="/image/icon-browser-login-botton.svg" alt="Web" className="w-6 h-6" /> Web?
-                </a>
+              </div>
+              
               </div>
             </div>
           </section>
