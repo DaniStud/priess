@@ -39,7 +39,7 @@ export default function AppSidebar() {
               </SidebarMenuButton>
               </Link>
               <div className="absolute inset-0 flex items-center justify-center bg-[#482e6e]/80 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
-              <span className="text-xs font-semibold text-white px-2 py-1 rounded opacity-80">Coming soon</span>
+              <span className="text-xs font-semibold text-white px-2 py-1 rounded opacity-80">Kommer snart</span>
               </div>
             </div>
           </SidebarMenuItem>
@@ -51,7 +51,7 @@ export default function AppSidebar() {
               </SidebarMenuButton>
             </Link>
                           <div className="absolute inset-0 flex items-center justify-center bg-[#482e6e]/80 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
-              <span className="text-xs font-semibold text-white px-2 py-1 rounded opacity-80">Coming soon</span>
+              <span className="text-xs font-semibold text-white px-2 py-1 rounded opacity-80">Kommer snart</span>
               </div>
             </div>
           </SidebarMenuItem>
@@ -79,7 +79,7 @@ export default function AppSidebar() {
             <span className="text-base opacity-40">Min konto</span>
           </div>
           <div className="absolute inset-0 flex items-center justify-center bg-[#482e6e]/80 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
-            <span className="text-xs font-semibold text-white px-2 py-1 rounded opacity-80">Coming soon</span>
+            <span className="text-xs font-semibold text-white px-2 py-1 rounded opacity-80">Kommer snart</span>
           </div>
         </div>
         <div className="relative group">
@@ -88,7 +88,7 @@ export default function AppSidebar() {
             <span className="text-base opacity-40">Hjælp</span>
           </div>
           <div className="absolute inset-0 flex items-center justify-center bg-[#482e6e]/80 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
-            <span className="text-xs font-semibold text-white px-2 py-1 rounded opacity-80">Coming soon</span>
+            <span className="text-xs font-semibold text-white px-2 py-1 rounded opacity-80">Kommer snart</span>
           </div>
         </div>
         

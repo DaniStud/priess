@@ -93,7 +93,7 @@ const DashboardPage = () => {
                 <line x1="21" y1="21" x2="16.65" y2="16.65" stroke="#2d253a" strokeWidth="2" />
               </svg>
             </span>
-            <span className="text-gray-500 text-lg select-none">Søg her...</span>
+            <span className="text-gray-500 text-lg select-none opacity-60">Søg her...</span>
             <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center rounded-full z-10 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-200">
               <span className="text-white text-base font-bold">Kommer snart</span>
             </div>
@@ -105,13 +105,13 @@ const DashboardPage = () => {
             tabIndex={-1}
             disabled
           >
-            <span className="flex items-center justify-center w-7 h-7 rounded-full mr-2">
+            <span className="flex items-center justify-center w-7 h-7 rounded-full mr-2 opacity-40">
               <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24">
                 <line x1="12" y1="5" x2="12" y2="19" stroke="white" strokeWidth="3" strokeLinecap="round" />
                 <line x1="5" y1="12" x2="19" y2="12" stroke="white" strokeWidth="3" strokeLinecap="round" />
               </svg>
             </span>
-            <span className="text-white font-bold text-lg">Tilføj forretning</span>
+            <span className="text-white font-bold text-lg opacity-40">Tilføj forretning</span>
             <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center rounded-full z-10 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-200">
               <span className="text-white text-base font-bold">Kommer snart</span>
             </div>

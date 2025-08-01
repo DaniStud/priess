@@ -3,8 +3,6 @@
 import BusinessLoginForm from "@/components/BusinessLoginForm";
 import BusinessSignupForm from "@/components/BusinessSignupForm";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import WaitlistForm from "@/components/WaitlistForm";
 import Navigation from "@/components/Navigation";
 import { useState } from "react";
 
