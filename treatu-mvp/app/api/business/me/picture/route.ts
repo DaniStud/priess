@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
 import path from "path";
 import { promises as fs } from "fs";
+import sharp from "sharp";
 
 export async function POST(req: Request) {
   try {
@@ -29,13 +30,27 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "No file uploaded" }, { status: 400 });
     }
 
-    // Save file to /public/profile-pictures/
+    // Delete previous profile picture if exists
+    const business = await prisma.business.findUnique({ where: { id: businessId }, select: { profilePic: true } });
+    if (business?.profilePic) {
+      const prevPicPath = path.join(process.cwd(), "public", business.profilePic);
+      try {
+        await fs.unlink(prevPicPath);
+      } catch (e) {
+        // Ignore if file doesn't exist
+      }
+    }
+
+    // Resize and save file to /public/profile-pictures/
     const buffer = Buffer.from(await file.arrayBuffer());
     const ext = file.name.split(".").pop();
     const fileName = `business_${businessId}_${Date.now()}.${ext}`;
     const filePath = path.join(process.cwd(), "public", "profile-pictures", fileName);
     await fs.mkdir(path.dirname(filePath), { recursive: true });
-    await fs.writeFile(filePath, buffer);
+    const resizedBuffer = await sharp(buffer)
+      .resize(480, 640, { fit: "cover" })
+      .toBuffer();
+    await fs.writeFile(filePath, resizedBuffer);
 
     // Update business profilePic field
     const imageUrl = `/profile-pictures/${fileName}`;
