@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import prisma from "@/lib/prisma";
+import prisma from '@/lib/prisma';
 
 export async function PUT(req: Request, context: any) {
   const id = Number(context.params.id);
@@ -15,7 +15,8 @@ export async function PUT(req: Request, context: any) {
     quantity,
     startDate,
     expiryDate,
-    durationMinutes
+    durationMinutes,
+    imageUrl
   } = body;
   if (!title || !description || !originalPrice || !price || !quantity || !startDate || !expiryDate || !durationMinutes) {
     return NextResponse.json({ error: "Missing fields" }, { status: 400 });
@@ -31,8 +32,9 @@ export async function PUT(req: Request, context: any) {
         quantity,
         startDate: new Date(startDate),
         expiryDate: new Date(expiryDate),
-        durationMinutes
-      }
+        durationMinutes,
+        imageUrl: imageUrl || null
+      } as any
     });
     return NextResponse.json(updated);
   } catch (e: any) {

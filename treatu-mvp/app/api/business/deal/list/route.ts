@@ -1,6 +1,6 @@
 
 import { NextResponse } from "next/server";
-import prisma from "@/lib/prisma";
+import prisma from '@/lib/prisma';
 import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
 
@@ -41,7 +41,8 @@ export async function GET(req: Request) {
         startDate: true,
         expiryDate: true,
         durationMinutes: true,
-      },
+        imageUrl: true,
+      } as any,
     });
     return NextResponse.json(deals);
   } catch (e) {

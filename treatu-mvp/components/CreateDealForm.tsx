@@ -5,6 +5,7 @@ import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription } 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
+
 export default function CreateDealForm({ salonId }: { salonId: number | null }) {
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState({
@@ -20,9 +21,52 @@ export default function CreateDealForm({ salonId }: { salonId: number | null }) 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string>("");
+  const [imageUploading, setImageUploading] = useState(false);
+  const [imageError, setImageError] = useState("");
+  const [imageUrl, setImageUrl] = useState<string>("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setImageError("");
+    setImageUrl("");
+    const file = e.target.files?.[0];
+    if (file) {
+      setImageFile(file);
+      const reader = new FileReader();
+      reader.onload = ev => setImagePreview(ev.target?.result as string);
+      reader.readAsDataURL(file);
+    } else {
+      setImageFile(null);
+      setImagePreview("");
+    }
+  };
+
+  const handleImageUpload = async () => {
+    if (!imageFile) return "";
+    setImageUploading(true);
+    setImageError("");
+    try {
+      const formData = new FormData();
+      formData.append("file", imageFile);
+      const res = await fetch("/api/business/deal/image", {
+        method: "POST",
+        body: formData,
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Upload fejlede");
+      setImageUrl(data.imageUrl);
+      return data.imageUrl;
+    } catch (err: any) {
+      setImageError(err.message);
+      return "";
+    } finally {
+      setImageUploading(false);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -30,6 +74,15 @@ export default function CreateDealForm({ salonId }: { salonId: number | null }) 
     setLoading(true);
     setError("");
     setSuccess("");
+    let uploadedImageUrl = imageUrl;
+    if (imageFile && !imageUrl) {
+      uploadedImageUrl = await handleImageUpload();
+      if (!uploadedImageUrl) {
+        setLoading(false);
+        setError("Billedet kunne ikke uploades");
+        return;
+      }
+    }
     if (salonId == null) {
       setError("Salon ID is missing. Cannot create deal.");
       setLoading(false);
@@ -45,7 +98,8 @@ export default function CreateDealForm({ salonId }: { salonId: number | null }) 
           price: Number(form.price),
           quantity: Number(form.quantity),
           durationMinutes: Number(form.durationMinutes),
-          salonId
+          salonId,
+          imageUrl: uploadedImageUrl || undefined
         })
       });
       if (!res.ok) {
@@ -63,6 +117,9 @@ export default function CreateDealForm({ salonId }: { salonId: number | null }) 
           expiryDate: "",
           durationMinutes: ""
         });
+        setImageFile(null);
+        setImagePreview("");
+        setImageUrl("");
         setOpen(false);
       }
     } catch (err) {
@@ -89,9 +146,26 @@ export default function CreateDealForm({ salonId }: { salonId: number | null }) 
           <Input name="startDate" placeholder="Startdato" type="datetime-local" value={form.startDate} onChange={handleChange} required disabled={salonId == null} />
           <Input name="expiryDate" placeholder="Slutdato" type="datetime-local" value={form.expiryDate} onChange={handleChange} required disabled={salonId == null} />
           <Input name="durationMinutes" placeholder="Varighed (minutter)" type="number" value={form.durationMinutes} onChange={handleChange} required disabled={salonId == null} />
+          {/* Image upload section */}
+          <div>
+            <label className="block mb-1 font-medium">Billede</label>
+            {imagePreview && (
+              <img src={imagePreview} alt="Preview" className="w-32 h-32 object-cover rounded mb-2" />
+            )}
+            <input
+              type="file"
+              name="dealImage"
+              accept="image/*"
+              className="block mb-2"
+              onChange={handleImageChange}
+              disabled={salonId == null}
+            />
+            {imageUploading && <div className="text-gray-500 text-xs">Uploader billede...</div>}
+            {imageError && <div className="text-red-500 text-xs">{imageError}</div>}
+          </div>
           {error && <div className="text-red-500 text-sm">{error}</div>}
           {success && <div className="text-green-600 text-sm">{success}</div>}
-          <Button type="submit" disabled={loading || salonId == null}>{loading ? "Opretter..." : "Opret tilbud"}</Button>
+          <Button type="submit" disabled={loading || salonId == null || imageUploading}>{loading ? "Opretter..." : "Opret tilbud"}</Button>
         </form>
       </DialogContent>
     </Dialog>

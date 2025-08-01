@@ -19,9 +19,52 @@ export default function EditDealForm({ deal, onUpdated }: { deal: any, onUpdated
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string>(deal.imageUrl || "");
+  const [imageUploading, setImageUploading] = useState(false);
+  const [imageError, setImageError] = useState("");
+  const [imageUrl, setImageUrl] = useState<string>(deal.imageUrl || "");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setImageError("");
+    setImageUrl("");
+    const file = e.target.files?.[0];
+    if (file) {
+      setImageFile(file);
+      const reader = new FileReader();
+      reader.onload = ev => setImagePreview(ev.target?.result as string);
+      reader.readAsDataURL(file);
+    } else {
+      setImageFile(null);
+      setImagePreview(imageUrl || "");
+    }
+  };
+
+  const handleImageUpload = async () => {
+    if (!imageFile) return imageUrl;
+    setImageUploading(true);
+    setImageError("");
+    try {
+      const formData = new FormData();
+      formData.append("file", imageFile);
+      const res = await fetch("/api/business/deal/image", {
+        method: "POST",
+        body: formData,
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Upload fejlede");
+      setImageUrl(data.imageUrl);
+      return data.imageUrl;
+    } catch (err: any) {
+      setImageError(err.message);
+      return imageUrl;
+    } finally {
+      setImageUploading(false);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -29,6 +72,15 @@ export default function EditDealForm({ deal, onUpdated }: { deal: any, onUpdated
     setLoading(true);
     setError("");
     setSuccess("");
+    let uploadedImageUrl = imageUrl;
+    if (imageFile && !imageUrl) {
+      uploadedImageUrl = await handleImageUpload();
+      if (!uploadedImageUrl) {
+        setLoading(false);
+        setError("Billedet kunne ikke uploades");
+        return;
+      }
+    }
     try {
       const res = await fetch(`/api/business/deal/${deal.id}/edit`, {
         method: "PUT",
@@ -40,7 +92,8 @@ export default function EditDealForm({ deal, onUpdated }: { deal: any, onUpdated
           quantity: Number(form.quantity),
           durationMinutes: Number(form.durationMinutes),
           startDate: form.startDate,
-          expiryDate: form.expiryDate
+          expiryDate: form.expiryDate,
+          imageUrl: uploadedImageUrl || undefined
         })
       });
       if (!res.ok) {
@@ -101,9 +154,25 @@ export default function EditDealForm({ deal, onUpdated }: { deal: any, onUpdated
           <Input name="startDate" placeholder="Startdato" type="datetime-local" value={form.startDate} onChange={handleChange} required />
           <Input name="expiryDate" placeholder="Slutdato" type="datetime-local" value={form.expiryDate} onChange={handleChange} required />
           <Input name="durationMinutes" placeholder="Varighed (minutter)" type="number" value={form.durationMinutes} onChange={handleChange} required />
+          {/* Image upload section */}
+          <div>
+            <label className="block mb-1 font-medium">Billede</label>
+            {imagePreview && (
+              <img src={imagePreview} alt="Preview" className="w-32 h-32 object-cover rounded mb-2" />
+            )}
+            <input
+              type="file"
+              name="dealImage"
+              accept="image/*"
+              className="block mb-2"
+              onChange={handleImageChange}
+            />
+            {imageUploading && <div className="text-gray-500 text-xs">Uploader billede...</div>}
+            {imageError && <div className="text-red-500 text-xs">{imageError}</div>}
+          </div>
           {error && <div className="text-red-500 text-sm">{error}</div>}
           {success && <div className="text-green-600 text-sm">{success}</div>}
-          <Button type="submit" disabled={loading}>{loading ? "Gemmer..." : "Gem ændringer"}</Button>
+          <Button type="submit" disabled={loading || imageUploading}>{loading ? "Gemmer..." : "Gem ændringer"}</Button>
         </form>
       </DialogContent>
     </Dialog>

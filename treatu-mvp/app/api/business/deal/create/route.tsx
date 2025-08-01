@@ -13,7 +13,8 @@ export async function POST(req: Request) {
       startDate,
       expiryDate,
       salonId,
-      durationMinutes
+      durationMinutes,
+      imageUrl
     } = body;
 
     if (!title || !description || !originalPrice || !price || !quantity || !startDate || !expiryDate || !salonId || !durationMinutes) {
@@ -30,10 +31,11 @@ export async function POST(req: Request) {
         startDate: new Date(startDate),
         expiryDate: new Date(expiryDate),
         durationMinutes,
+        imageUrl: imageUrl || null,
         salon: {
           connect: { id: Number(salonId) }
         }
-      }
+      } as any
     });
 
     return NextResponse.json(deal, { status: 201 });

@@ -76,7 +76,8 @@ model Deal {
   salonId     Int
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  durationMinutes Int 
+  durationMinutes Int
+  imageUrl    String? // URL or path to deal image
   @@index([salonId])
   @@index([startDate])
   @@index([expiryDate])

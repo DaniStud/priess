@@ -176,7 +176,16 @@ const DashboardPage = () => {
                 const isLive = now >= start && now <= end;
                 return (
                   <div key={deal.id} className="flex justify-between max-w-[90%] ml-5 mt-10 items-center border-b pb-2">
-                    <div className="w-16 h-16 bg-gray-200 rounded object-cover flex items-center justify-center text-xs text-gray-400">img</div>
+                    {deal.imageUrl ? (
+                      <img
+                        src={deal.imageUrl.startsWith('/') ? deal.imageUrl : '/' + deal.imageUrl}
+                        alt={deal.title}
+                        className="w-16 h-16 object-cover rounded"
+                        onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                      />
+                    ) : (
+                      <div className="w-16 h-16 bg-gray-200 rounded object-cover flex items-center justify-center text-xs text-gray-400">img</div>
+                    )}
                     <div className="flex-1 ml-4">
                       <h3 className="font-semibold">{deal.title}</h3>
                       <p className="text-xs text-gray-500">
