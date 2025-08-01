@@ -67,7 +67,7 @@ const DashboardPage = () => {
         </DialogContent>
       </Dialog>
       <div className="card p-8 rounded-lg bg-white shadow">
-        <div className="ml-10 flex justify-between max-w-[80%]">
+        <div className="ml-4 flex justify-between max-w-[90%]">
           <div className="flex items-center">
             <span className="flex items-center justify-center w-12 h-12 rounded-full bg-gray-200 border border-gray-400 mr-3">
               {/* Empty profile pic vector */}
@@ -120,8 +120,8 @@ const DashboardPage = () => {
         <h1 className="mt-20 mb-10 text-3xl font-bold mb-4">Dashboard</h1>
 
         <div className="lg:grid lg:grid-cols-2 gap-4 min-h-64">
-          <div className="bg-gray-100 p-4 rounded">
-            <div className="flex justify-between max-w-[80%] ml-10">
+          <div className="">
+            <div className="flex justify-between max-w-[90%] ml-5">
               {loading ? (
                 <Button disabled>Loading...</Button>
               ) : error ? (
@@ -170,9 +170,9 @@ const DashboardPage = () => {
                 const end = new Date(deal.expiryDate);
                 const isLive = now >= start && now <= end;
                 return (
-                  <div key={deal.id} className="flex justify-between max-w-[80%] ml-10 mt-10 items-center border-b pb-2">
+                  <div key={deal.id} className="flex justify-between max-w-[90%] ml-5 mt-10 items-center border-b pb-2">
                     <div className="w-16 h-16 bg-gray-200 rounded object-cover flex items-center justify-center text-xs text-gray-400">img</div>
-                    <div className="flex-1 ml-4">
+                    <div className="flex-1 ml-4 w-16 h-16">
                       <h3 className="font-semibold">{deal.title}</h3>
                       <p className="text-xs text-gray-500">
                         {new Date(deal.startDate).toLocaleDateString()} - {new Date(deal.expiryDate).toLocaleDateString()}

@@ -1,4 +1,5 @@
 import * as React from "react";
+import Link from "next/link";
 import {
   Sheet,
   SheetContent,
@@ -25,16 +26,10 @@ export function MobileNav() {
         </SheetHeader>
         <nav className="flex flex-col gap-6 p-6 text-lg">
           <SheetClose asChild>
-            <button>HOME</button>
+            <Link href="/">HJEM</Link>
           </SheetClose>
           <SheetClose asChild>
-            <button>ABOUT US</button>
-          </SheetClose>
-          <SheetClose asChild>
-            <button>CONTACT</button>
-          </SheetClose>
-          <SheetClose asChild>
-            <button>SIGN UP</button>
+            <Link href="/contact">KONTAKT</Link>
           </SheetClose>
         </nav>
       </SheetContent>

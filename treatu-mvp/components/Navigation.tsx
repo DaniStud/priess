@@ -1,4 +1,5 @@
 import { NavigationMenu, NavigationMenuList, NavigationMenuItem } from "@/components/ui/navigation-menu";
+import Link from "next/link";
 import { MobileNav } from "@/components/MobileNav"; // Import the mobile nav
 
 export default function Navigation() {
@@ -10,10 +11,12 @@ export default function Navigation() {
             {/* Desktop navigation: visible on xl and up, hidden on tablet and smaller */}
             <NavigationMenu className="ml-20 hidden xl:flex flex-1 justify-between">
                 <NavigationMenuList className="flex gap-20">
-                    <NavigationMenuItem className="text-xl">HOME</NavigationMenuItem>
-                    <NavigationMenuItem className="text-xl">ABOUT US</NavigationMenuItem>
-                    <NavigationMenuItem className="text-xl">CONTACT</NavigationMenuItem>
-                    <NavigationMenuItem className="text-xl">SIGN UP</NavigationMenuItem>
+                    <NavigationMenuItem className="text-xl">
+                        <Link href="/">HJEM</Link>
+                    </NavigationMenuItem>
+                    <NavigationMenuItem className="text-xl">
+                        <Link href="/contact">KONTAKT</Link>
+                    </NavigationMenuItem>
                 </NavigationMenuList>
             </NavigationMenu>
             

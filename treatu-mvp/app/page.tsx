@@ -17,10 +17,14 @@ export default function Home() {
           <section>
             <div className="hidden lg:flex flex-col items-center justify-center text-6xl h-full">
               <div>
-                <h2>CPH's SELFCARE PLATFORM</h2>
+                <h2
+                  className="font-extrabold text-6xl text-center drop-shadow-[4px_4px_0_rgba(120,120,120,0.7)]"
+                >
+                  KBH'S SELFCARE<br />PLATFORM
+                </h2>
               </div>
               <div>
-                <h2 className="pt-60">Welcome Back!</h2>
+                <h2 className="pt-60 font-extrabold text-6xl">Welcome Back!</h2>
               </div>
             </div>
           </section>
@@ -42,9 +46,15 @@ export default function Home() {
                 {showSignup ? "Back to login" : "Sign up your business today!"}
               </Button>
               <div className="flex justify-between mt-10">
-                <a href="#">Instagram</a>
-                <a href="#">Facebook</a>
-                <a href="#">Web?</a>
+                <a href="#" className="flex items-center gap-2">
+                  <img src="/image/icon-instagram-login-botton.svg" alt="Instagram" className="w-6 h-6" /> Instagram
+                </a>
+                <a href="#" className="flex items-center gap-2">
+                  <img src="/image/icon-facebook-login-botton.svg" alt="Facebook" className="w-6 h-6" /> Facebook
+                </a>
+                <a href="#" className="flex items-center gap-2">
+                  <img src="/image/icon-browser-login-botton.svg" alt="Web" className="w-6 h-6" /> Web?
+                </a>
               </div>
             </div>
           </section>
