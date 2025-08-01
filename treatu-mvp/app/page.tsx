@@ -47,7 +47,7 @@ export default function Home() {
               </Button>
               <div className="flex justify-between mt-10">
                 <a href="#" className="flex items-center gap-2">
-                  <img src="/image/icon-instagram-login-botton.svg" alt="Instagram" className="w-6 h-6" /> Instagram
+                  <img src="..\..\public\image\Icon-instagram-login-botton.svg" alt="Instagram"/> 
                 </a>
                 <a href="#" className="flex items-center gap-2">
                   <img src="/image/icon-facebook-login-botton.svg" alt="Facebook" className="w-6 h-6" /> Facebook

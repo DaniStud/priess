@@ -66,7 +66,7 @@ export async function GET() {
     const businessId = payload.businessId;
     const business = await prisma.business.findUnique({
       where: { id: businessId },
-      select: { id: true, email: true, salons: { select: { id: true, name: true } } }
+      select: { id: true, email: true, profilePic: true, salons: { select: { id: true, name: true } } }
     });
     if (!business) {
       return NextResponse.json({ error: "Not found" }, { status: 404 });
@@ -75,7 +75,7 @@ export async function GET() {
     const salon = business.salons[0] || null;
     const salonId = salon?.id || null;
     const salonName = salon?.name || null;
-    return NextResponse.json({ id: business.id, email: business.email, salonId, salonName });
+    return NextResponse.json({ id: business.id, email: business.email, profilePic: business.profilePic, salonId, salonName });
   } catch {
     return NextResponse.json({ error: "Invalid token" }, { status: 401 });
   }

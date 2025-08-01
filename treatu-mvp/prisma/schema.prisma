@@ -16,6 +16,7 @@ model Business {
   updatedAt DateTime @updatedAt
   deletedAt DateTime?
   salons    Salon[]
+  profilePic String? // URL or path to profile picture
 }
 
 model Salon {

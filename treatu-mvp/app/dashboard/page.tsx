@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 const DashboardPage = () => {
   const [salonId, setSalonId] = useState<number | null>(null);
   const [salonName, setSalonName] = useState<string>("");
+  const [profilePic, setProfilePic] = useState<string>("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [deals, setDeals] = useState<any[]>([]);
@@ -25,6 +26,7 @@ const DashboardPage = () => {
         if (data.salonId) {
           setSalonId(data.salonId);
           setSalonName(data.salonName || "");
+          if (data.profilePic) setProfilePic(data.profilePic);
         } else {
           setError("Salon ID not found");
           setShowLoginDialog(true);
@@ -69,12 +71,15 @@ const DashboardPage = () => {
       <div className="card p-8 rounded-lg bg-white shadow">
         <div className="ml-4 flex justify-between max-w-[90%]">
           <div className="flex items-center">
-            <span className="flex items-center justify-center w-12 h-12 rounded-full bg-gray-200 border border-gray-400 mr-3">
-              {/* Empty profile pic vector */}
-              <svg className="w-8 h-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
-                <circle cx="12" cy="8" r="4" stroke="currentColor" />
-                <path d="M4 20c0-4 4-6 8-6s8 2 8 6" stroke="currentColor" />
-              </svg>
+            <span className="flex items-center justify-center w-12 h-12 rounded-full bg-gray-200 border border-gray-400 mr-3 overflow-hidden">
+              {profilePic ? (
+                <img src={profilePic.startsWith('/') ? profilePic : '/' + profilePic} alt="Profilbillede" className="w-12 h-12 object-cover rounded-full" onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+              ) : (
+                <svg className="w-8 h-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+                  <circle cx="12" cy="8" r="4" stroke="currentColor" />
+                  <path d="M4 20c0-4 4-6 8-6s8 2 8 6" stroke="currentColor" />
+                </svg>
+              )}
             </span>
             <h3 className="text-lg font-semibold text-gray-700">
               {loading ? (
@@ -172,7 +177,7 @@ const DashboardPage = () => {
                 return (
                   <div key={deal.id} className="flex justify-between max-w-[90%] ml-5 mt-10 items-center border-b pb-2">
                     <div className="w-16 h-16 bg-gray-200 rounded object-cover flex items-center justify-center text-xs text-gray-400">img</div>
-                    <div className="flex-1 ml-4 w-16 h-16">
+                    <div className="flex-1 ml-4">
                       <h3 className="font-semibold">{deal.title}</h3>
                       <p className="text-xs text-gray-500">
                         {new Date(deal.startDate).toLocaleDateString()} - {new Date(deal.expiryDate).toLocaleDateString()}
@@ -181,7 +186,7 @@ const DashboardPage = () => {
                     <Button variant={isLive ? "default" : "secondary"} className="mx-2" disabled>
                       {isLive ? "Live" : "Offline"}
                     </Button>
-                    <div className="font-bold text-lg">{deal.price} kr</div>
+                    <div className="font-bold text-lg w-[60px] lg:w-[100px] lg:ml-5">{deal.price} kr</div>
                   </div>
                 );
               })
