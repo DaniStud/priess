@@ -27,7 +27,7 @@ export default function AppSidebar() {
           <SidebarMenuItem>
             <Link href="/dashboard">
               <SidebarMenuButton className="flex items-center gap-3 py-3 px-3 text-base rounded-lg transition">
-                <Home size={20} /> Dashboard
+                <Home size={20} /> Oversigt
               </SidebarMenuButton>
             </Link>
           </SidebarMenuItem>
@@ -35,7 +35,7 @@ export default function AppSidebar() {
             <div className="relative group">
               <Link href="#">
               <SidebarMenuButton className="flex items-center gap-3 py-3 px-3 text-base rounded-lg transition opacity-40 pointer-events-none">
-                <CalendarDays size={20} /> Calendar & times
+                <CalendarDays size={20} /> Kalender & tider
               </SidebarMenuButton>
               </Link>
               <div className="absolute inset-0 flex items-center justify-center bg-[#482e6e]/80 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
@@ -47,7 +47,7 @@ export default function AppSidebar() {
             <div className="relative group">
             <Link href="#">
               <SidebarMenuButton className="flex opacity-40 items-center gap-3 py-3 px-3 text-base rounded-lg transition">
-                <Bell size={20} /> Notifications
+                <Bell size={20} /> Notifikationer
               </SidebarMenuButton>
             </Link>
                           <div className="absolute inset-0 flex items-center justify-center bg-[#482e6e]/80 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
@@ -58,14 +58,14 @@ export default function AppSidebar() {
           <SidebarMenuItem>
             <Link href="/dashboard/settings">
               <SidebarMenuButton className="flex items-center gap-3 py-3 px-3 text-base rounded-lg transition">
-                <Settings size={20} /> Settings
+                <Settings size={20} /> Indstillinger
               </SidebarMenuButton>
             </Link>
           </SidebarMenuItem>
           <SidebarMenuItem>
             <Link href="/logout">
               <SidebarMenuButton className="flex items-center gap-3 py-3 px-3 text-base rounded-lg transition">
-                <LogOut size={20} /> Logout
+                <LogOut size={20} /> Log ud
               </SidebarMenuButton>
             </Link>
           </SidebarMenuItem>

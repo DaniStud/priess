@@ -50,9 +50,9 @@ export default function CreateDealForm({ salonId }: { salonId: number | null }) 
       });
       if (!res.ok) {
         const data = await res.json();
-        setError(data.error || "Failed to create deal");
+        setError(data.error || "Kunne ikke oprette tilbud");
       } else {
-        setSuccess("Deal created successfully!");
+        setSuccess("Tilbud oprettet!");
         setForm({
           title: "",
           description: "",
@@ -66,7 +66,7 @@ export default function CreateDealForm({ salonId }: { salonId: number | null }) 
         setOpen(false);
       }
     } catch (err) {
-      setError("Server error");
+      setError("Serverfejl");
     } finally {
       setLoading(false);
     }
@@ -75,23 +75,23 @@ export default function CreateDealForm({ salonId }: { salonId: number | null }) 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="default" disabled={salonId == null}>Create Deal</Button>
+        <Button variant="default" disabled={salonId == null}>Opret tilbud</Button>
       </DialogTrigger>
       <DialogContent>
-        <DialogTitle>Create a New Deal</DialogTitle>
-        <DialogDescription>Fill in the details below to create a new deal.</DialogDescription>
+        <DialogTitle>Opret et nyt tilbud</DialogTitle>
+        <DialogDescription>Udfyld felterne herunder for at oprette et nyt tilbud.</DialogDescription>
         <form onSubmit={handleSubmit} className="space-y-3">
-          <Input name="title" placeholder="Title" value={form.title} onChange={handleChange} required disabled={salonId == null} />
-          <Input name="description" placeholder="Description" value={form.description} onChange={handleChange} required disabled={salonId == null} />
-          <Input name="originalPrice" placeholder="Original Price" type="number" value={form.originalPrice} onChange={handleChange} required disabled={salonId == null} />
-          <Input name="price" placeholder="Deal Price" type="number" value={form.price} onChange={handleChange} required disabled={salonId == null} />
-          <Input name="quantity" placeholder="Quantity" type="number" value={form.quantity} onChange={handleChange} required disabled={salonId == null} />
-          <Input name="startDate" placeholder="Start Date" type="datetime-local" value={form.startDate} onChange={handleChange} required disabled={salonId == null} />
-          <Input name="expiryDate" placeholder="Expiry Date" type="datetime-local" value={form.expiryDate} onChange={handleChange} required disabled={salonId == null} />
-          <Input name="durationMinutes" placeholder="Duration (minutes)" type="number" value={form.durationMinutes} onChange={handleChange} required disabled={salonId == null} />
+          <Input name="title" placeholder="Titel" value={form.title} onChange={handleChange} required disabled={salonId == null} />
+          <Input name="description" placeholder="Beskrivelse" value={form.description} onChange={handleChange} required disabled={salonId == null} />
+          <Input name="originalPrice" placeholder="Normalpris" type="number" value={form.originalPrice} onChange={handleChange} required disabled={salonId == null} />
+          <Input name="price" placeholder="Tilbudspris" type="number" value={form.price} onChange={handleChange} required disabled={salonId == null} />
+          <Input name="quantity" placeholder="Antal" type="number" value={form.quantity} onChange={handleChange} required disabled={salonId == null} />
+          <Input name="startDate" placeholder="Startdato" type="datetime-local" value={form.startDate} onChange={handleChange} required disabled={salonId == null} />
+          <Input name="expiryDate" placeholder="Slutdato" type="datetime-local" value={form.expiryDate} onChange={handleChange} required disabled={salonId == null} />
+          <Input name="durationMinutes" placeholder="Varighed (minutter)" type="number" value={form.durationMinutes} onChange={handleChange} required disabled={salonId == null} />
           {error && <div className="text-red-500 text-sm">{error}</div>}
           {success && <div className="text-green-600 text-sm">{success}</div>}
-          <Button type="submit" disabled={loading || salonId == null}>{loading ? "Creating..." : "Create Deal"}</Button>
+          <Button type="submit" disabled={loading || salonId == null}>{loading ? "Opretter..." : "Opret tilbud"}</Button>
         </form>
       </DialogContent>
     </Dialog>

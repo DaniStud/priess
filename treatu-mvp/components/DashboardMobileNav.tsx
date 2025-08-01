@@ -27,12 +27,12 @@ export function DashboardMobileNav() {
         <nav className="flex flex-col gap-2 p-6 text-base">
           <SheetClose asChild>
             <Link href="/dashboard" className="flex items-center gap-3 py-3 px-3 rounded-lg hover:bg-[#5e3e93] transition">
-              <Home size={20} /> Dashboard
+              <Home size={20} /> Oversigt
             </Link>
           </SheetClose>
           <div className="relative group">
             <button className="flex items-center gap-3 py-3 px-3 rounded-lg opacity-40 pointer-events-none w-full">
-              <CalendarDays size={20} /> Calendar & times
+              <CalendarDays size={20} /> Kalender & tider
             </button>
             <div className="absolute inset-0 flex items-center justify-center bg-[#482e6e]/80 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
               <span className="text-xs font-semibold text-white px-2 py-1 rounded opacity-80">Kommer snart</span>
@@ -40,7 +40,7 @@ export function DashboardMobileNav() {
           </div>
           <div className="relative group">
             <button className="flex items-center gap-3 py-3 px-3 rounded-lg opacity-40 pointer-events-none w-full">
-              <Bell size={20} /> Notifications
+              <Bell size={20} /> Notifikationer
             </button>
             <div className="absolute inset-0 flex items-center justify-center bg-[#482e6e]/80 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
               <span className="text-xs font-semibold text-white px-2 py-1 rounded opacity-80">Kommer snart</span>
@@ -48,12 +48,12 @@ export function DashboardMobileNav() {
           </div>
           <SheetClose asChild>
             <Link href="/dashboard/settings" className="flex items-center gap-3 py-3 px-3 rounded-lg hover:bg-[#5e3e93] transition">
-              <Settings size={20} /> Settings
+              <Settings size={20} /> Indstillinger
             </Link>
           </SheetClose>
           <SheetClose asChild>
             <Link href="/logout" className="flex items-center gap-3 py-3 px-3 rounded-lg hover:bg-[#5e3e93] transition">
-              <LogOut size={20} /> Logout
+              <LogOut size={20} /> Log ud
             </Link>
           </SheetClose>
         </nav>

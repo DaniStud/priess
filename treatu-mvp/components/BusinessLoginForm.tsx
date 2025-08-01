@@ -37,23 +37,23 @@ export default function BusinessLoginForm() {
     <form className="flex flex-col gap-2" onSubmit={submit}>
       <Input
         type="email"
-        placeholder="Your email"
+        placeholder="Din e-mail"
         value={email}
         onChange={e => setEmail(e.target.value)}
         required
       />
       <Input
         type="password"
-        placeholder="Password"
+        placeholder="Adgangskode"
         value={password}
         onChange={e => setPassword(e.target.value)}
         required
       />
       <Button className="mt-10" type="submit" disabled={loading}>
-        {loading ? "Logging in..." : "Log in"}
+        {loading ? "Logger ind..." : "Log ind"}
       </Button>
-      {status === "success" && <p className="text-green-600">You are now logged in!</p>}
-      {status === "error" && <p className="text-red-600">{errorMsg === "Noget gik galt. Prøv igen." ? "Something went wrong. Please try again." : errorMsg}</p>}
+      {status === "success" && <p className="text-green-600">Du er nu logget ind!</p>}
+      {status === "error" && <p className="text-red-600">{errorMsg}</p>}
     </form>
   );
 }

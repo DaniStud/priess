@@ -206,7 +206,7 @@ const DashboardPage = () => {
                   <span className="absolute right-4 top-2 text-black text-sm font-normal">Se kalender</span>
                   {/* Weekday headers */}
                   <div className="grid grid-cols-7 gap-x-2 mb-1">
-                    {["Su","Mo","Tu","We","Th","Fr","Sa"].map((d, i) => (
+                    {["Sø","Ma","Ti","On","To","Fr","Lø"].map((d, i) => (
                       <div key={d} className={`text-center text-base ${i === 0 ? 'font-bold text-[#2d253a]' : 'font-normal text-[#8c85a3]'}`}>{d}</div>
                     ))}
                   </div>

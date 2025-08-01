@@ -64,46 +64,46 @@ export default function EditDealForm({ deal, onUpdated }: { deal: any, onUpdated
         <div>
         <div>{deal.title}</div>
         <div className="flex justify-between gap-2 mt-2">
-          <Button variant="secondary">Edit:</Button>
+          <Button variant="secondary">Rediger</Button>
           <Button
             className="dark"
             variant="destructive"
             type="button"
             onClick={async (e) => {
               e.stopPropagation();
-              if (!confirm(`Are you sure you want to delete '${deal.title}'?`)) return;
+              if (!confirm(`Er du sikker på, at du vil slette '${deal.title}'?`)) return;
               try {
                 const res = await fetch(`/api/business/deal/${deal.id}/delete`, { method: "DELETE" });
                 if (!res.ok) {
-                  alert("Failed to delete deal");
+                  alert("Kunne ikke slette tilbuddet");
                 } else {
                   if (onUpdated) onUpdated();
                 }
               } catch {
-                alert("Server error");
+                alert("Serverfejl");
               }
             }}
           >
-            Delete
+            Slet
           </Button>
         </div>
         </div>
       </DialogTrigger>
       <DialogContent>
-        <DialogTitle>Edit Deal</DialogTitle>
-        <DialogDescription>Update the details below and save changes.</DialogDescription>
+        <DialogTitle>Rediger tilbud</DialogTitle>
+        <DialogDescription>Opdater felterne herunder og gem ændringer.</DialogDescription>
         <form onSubmit={handleSubmit} className="space-y-3">
-          <Input name="title" placeholder="Title" value={form.title} onChange={handleChange} required />
-          <Input name="description" placeholder="Description" value={form.description} onChange={handleChange} required />
-          <Input name="originalPrice" placeholder="Original Price" type="number" value={form.originalPrice} onChange={handleChange} required />
-          <Input name="price" placeholder="Deal Price" type="number" value={form.price} onChange={handleChange} required />
-          <Input name="quantity" placeholder="Quantity" type="number" value={form.quantity} onChange={handleChange} required />
-          <Input name="startDate" placeholder="Start Date" type="datetime-local" value={form.startDate} onChange={handleChange} required />
-          <Input name="expiryDate" placeholder="Expiry Date" type="datetime-local" value={form.expiryDate} onChange={handleChange} required />
-          <Input name="durationMinutes" placeholder="Duration (minutes)" type="number" value={form.durationMinutes} onChange={handleChange} required />
+          <Input name="title" placeholder="Titel" value={form.title} onChange={handleChange} required />
+          <Input name="description" placeholder="Beskrivelse" value={form.description} onChange={handleChange} required />
+          <Input name="originalPrice" placeholder="Normalpris" type="number" value={form.originalPrice} onChange={handleChange} required />
+          <Input name="price" placeholder="Tilbudspris" type="number" value={form.price} onChange={handleChange} required />
+          <Input name="quantity" placeholder="Antal" type="number" value={form.quantity} onChange={handleChange} required />
+          <Input name="startDate" placeholder="Startdato" type="datetime-local" value={form.startDate} onChange={handleChange} required />
+          <Input name="expiryDate" placeholder="Slutdato" type="datetime-local" value={form.expiryDate} onChange={handleChange} required />
+          <Input name="durationMinutes" placeholder="Varighed (minutter)" type="number" value={form.durationMinutes} onChange={handleChange} required />
           {error && <div className="text-red-500 text-sm">{error}</div>}
           {success && <div className="text-green-600 text-sm">{success}</div>}
-          <Button type="submit" disabled={loading}>{loading ? "Saving..." : "Save Changes"}</Button>
+          <Button type="submit" disabled={loading}>{loading ? "Gemmer..." : "Gem ændringer"}</Button>
         </form>
       </DialogContent>
     </Dialog>

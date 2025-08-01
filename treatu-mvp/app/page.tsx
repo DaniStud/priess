@@ -12,32 +12,32 @@ export default function Home() {
   return (
     <>
       <main
-        className="overflow-auto bg-[url('/image/70procent.png')] bg-no-repeat bg-left bg-[length:auto_130vh] bg-opacity-100"
+        className="overflow-auto bg-[url('/image/70procent.png')] bg-no-repeat bg-left bg-[length:auto_130vh]"
       >
         <Navigation/>
         <div className="flex justify-between ml-[10vw] max-w-[80vw]">
           <section>
-            <div className="hidden lg:flex flex-col items-center justify-center text-6xl h-full">
-              <div>
-                <h2
-                  className="font-extrabold text-7xl text-center drop-shadow-[4px_4px_0_rgba(120,120,120,0.7)]"
-                >
-                  KBH'S SELFCARE<br />PLATFORM
-                </h2>
+              <div className="hidden lg:flex flex-col items-center justify-center text-6xl h-full">
+                <div>
+                  <h2
+                    className="font-extrabold text-7xl text-center drop-shadow-[4px_4px_0_rgba(120,120,120,0.7)]"
+                  >
+                    KBH'S SELFCARE<br />PLATFORM
+                  </h2>
+                </div>
+                <div>
+                  <h2 className="pt-60 font-extrabold text-6xl">Velkommen tilbage!</h2>
+                </div>
               </div>
-              <div>
-                <h2 className="pt-60 font-extrabold text-6xl">Welcome Back!</h2>
-              </div>
-            </div>
           </section>
 
           <section>
             <div className="card p-10 pb-20 rounded-lg ml-[0vw] sm:ml-[5vw] min-w-[80vw] sm:min-w-[500px] sm:min-h-[85vh]">
-              <h1 className="mb-32 mt-20">{showSignup ? "Sign up" : "Log in"}</h1>
+              <h1 className="mb-32 mt-20">{showSignup ? "Opret konto" : "Log ind"}</h1>
               {showSignup ? <BusinessSignupForm /> : <BusinessLoginForm />}
               <div className="flex items-center my-6">
                 <hr className="flex-1 border-t border-gray-300" />
-                <span className="mx-4 text-gray-500">or</span>
+                <span className="mx-4 text-gray-500">eller</span>
                 <hr className="flex-1 border-t border-gray-300" />
               </div>
               <Button
@@ -45,7 +45,7 @@ export default function Home() {
                 className="w-full mb-6 bg-gray-200 text-gray-700 hover:bg-gray-300 sm:pl-20 sm:pr-20"
                 onClick={() => setShowSignup((prev) => !prev)}
               >
-                {showSignup ? "Back to login" : "Sign up your business today!"}
+                {showSignup ? "Tilbage til login" : "Opret din virksomhed i dag!"}
               </Button>
 
 

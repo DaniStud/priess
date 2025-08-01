@@ -41,7 +41,7 @@ export default function Contact() {
 
   return (
     <>
-      <main className="">
+      <main className="bg-[url('/image/metal2-trans.png')] h-[100vh] bg-left overflow-visible bg-no-repeat bg-left bg-[length:auto_100vh]">
         <Navigation/>
         <div className="flex justify-between ml-[10vw] max-w-[80vw]">
           <section>
