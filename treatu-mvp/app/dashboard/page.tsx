@@ -125,7 +125,7 @@ const DashboardPage = () => {
         <h1 className="mt-20 mb-10 text-3xl font-bold mb-4">Dashboard</h1>
 
         <div className="lg:grid lg:grid-cols-2 gap-4 min-h-64">
-          <div className="">
+          <div className="min-h-64 mb-10">
             <div className="flex justify-between max-w-[90%] ml-5">
               {loading ? (
                 <Button disabled>Loading...</Button>
