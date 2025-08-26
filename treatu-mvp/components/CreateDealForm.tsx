@@ -155,10 +155,13 @@ export default function CreateDealForm({ salonId }: { salonId: number | null }) 
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          ...form,
+          title: form.title,
+          description: form.description,
           originalPrice: Number(form.originalPrice),
           price: Number(form.price),
           quantity: Number(form.quantity),
+          startDate: form.startDate,
+          expiryDate: form.expiryDate,
           durationMinutes: Number(form.durationMinutes),
           salonId,
           imageUrl: uploadedImageUrl || undefined
@@ -382,7 +385,6 @@ export default function CreateDealForm({ salonId }: { salonId: number | null }) 
             {currentStep > 1 && (
               <Button 
                 type="button" 
-                variant="outline" 
                 onClick={prevStep}
                 disabled={loading}
               >
