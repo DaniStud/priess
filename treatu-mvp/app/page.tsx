@@ -32,7 +32,7 @@ export default function Home() {
           </section>
 
           <section>
-            <div className="card p-10 pb-20 rounded-lg ml-[0vw] sm:ml-[5vw] min-w-[80vw] sm:min-w-[500px] sm:min-h-[85vh]">
+            <div className="card p-10 pb-20 rounded-[40px] ml-[0vw] sm:ml-[5vw] min-w-[80vw] sm:min-w-[500px] sm:min-h-[85vh]">
               <h1 className="mb-32 mt-20">{showSignup ? "Opret konto" : "Log ind"}</h1>
               {showSignup ? <BusinessSignupForm /> : <BusinessLoginForm />}
               <div className="flex items-center my-6">
