@@ -4,16 +4,33 @@ import { useState } from "react";
 import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
+
+const CATEGORIES = [
+  "Hårklipning",
+  "Farve",
+  "Highlights", 
+  "Permanent",
+  "Styling",
+  "Behandling",
+  "Negle",
+  "Massage",
+  "Ansigtsbehandling",
+  "Øjenbryn og vipper",
+  "Andet"
+];
 
 export default function CreateDealForm({ salonId }: { salonId: number | null }) {
   const [open, setOpen] = useState(false);
+  const [currentStep, setCurrentStep] = useState(1);
   const [form, setForm] = useState({
     title: "",
+    category: "",
     description: "",
     originalPrice: "",
     price: "",
-    quantity: "",
+    quantity: "1",
     startDate: "",
     expiryDate: "",
     durationMinutes: ""
@@ -30,6 +47,51 @@ export default function CreateDealForm({ salonId }: { salonId: number | null }) 
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleCategoryChange = (value: string) => {
+    setForm({ ...form, category: value });
+  };
+
+  const nextStep = () => {
+    setError("");
+    if (currentStep < 4) {
+      setCurrentStep(currentStep + 1);
+    }
+  };
+
+  const prevStep = () => {
+    setError("");
+    if (currentStep > 1) {
+      setCurrentStep(currentStep - 1);
+    }
+  };
+
+  const resetForm = () => {
+    setForm({
+      title: "",
+      category: "",
+      description: "",
+      originalPrice: "",
+      price: "",
+      quantity: "1",
+      startDate: "",
+      expiryDate: "",
+      durationMinutes: ""
+    });
+    setCurrentStep(1);
+    setImageFile(null);
+    setImagePreview("");
+    setImageUrl("");
+    setError("");
+    setSuccess("");
+  };
+
+  const handleDialogChange = (open: boolean) => {
+    setOpen(open);
+    if (!open) {
+      resetForm();
+    }
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -70,8 +132,7 @@ export default function CreateDealForm({ salonId }: { salonId: number | null }) 
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     setLoading(true);
     setError("");
     setSuccess("");
@@ -108,19 +169,7 @@ export default function CreateDealForm({ salonId }: { salonId: number | null }) 
         setError(data.error || "Kunne ikke oprette tilbud");
       } else {
         setSuccess("Tilbud oprettet!");
-        setForm({
-          title: "",
-          description: "",
-          originalPrice: "",
-          price: "",
-          quantity: "",
-          startDate: "",
-          expiryDate: "",
-          durationMinutes: ""
-        });
-        setImageFile(null);
-        setImagePreview("");
-        setImageUrl("");
+        resetForm();
         setOpen(false);
         setShowSuccessPopup(true);
       }
@@ -131,27 +180,75 @@ export default function CreateDealForm({ salonId }: { salonId: number | null }) 
     }
   };
 
-  return (
-    <>
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogTrigger asChild>
-          <Button variant="default" disabled={salonId == null}>Opret tilbud</Button>
-        </DialogTrigger>
-        <DialogContent>
-          <DialogTitle>Opret et nyt tilbud</DialogTitle>
-          <DialogDescription>Udfyld felterne herunder for at oprette et nyt tilbud.</DialogDescription>
-          <form onSubmit={handleSubmit} className="space-y-3">
-            <Input name="title" placeholder="Titel" value={form.title} onChange={handleChange} required disabled={salonId == null} />
-            <Input name="description" placeholder="Beskrivelse" value={form.description} onChange={handleChange} required disabled={salonId == null} />
-            <Input name="originalPrice" placeholder="Normalpris" type="number" value={form.originalPrice} onChange={handleChange} required disabled={salonId == null} />
-            <Input name="price" placeholder="Tilbudspris" type="number" value={form.price} onChange={handleChange} required disabled={salonId == null} />
-            <Input name="quantity" placeholder="Antal" type="number" value={form.quantity} onChange={handleChange} required disabled={salonId == null} />
-            <Input name="startDate" placeholder="Startdato" type="datetime-local" value={form.startDate} onChange={handleChange} required disabled={salonId == null} />
-            <Input name="expiryDate" placeholder="Slutdato" type="datetime-local" value={form.expiryDate} onChange={handleChange} required disabled={salonId == null} />
-            <Input name="durationMinutes" placeholder="Varighed (minutter)" type="number" value={form.durationMinutes} onChange={handleChange} required disabled={salonId == null} />
-            {/* Image upload section */}
+  const isStep1Valid = () => {
+    return form.title.trim() && form.startDate && form.expiryDate;
+  };
+
+  const isStep2Valid = () => {
+    return form.description.trim();
+  };
+
+  const isStep3Valid = () => {
+    return form.durationMinutes && Number(form.durationMinutes) > 0;
+  };
+
+  const isStep4Valid = () => {
+    return form.originalPrice && form.price && Number(form.originalPrice) > 0 && Number(form.price) > 0;
+  };
+
+  const renderStepContent = () => {
+    switch (currentStep) {
+      case 1:
+        return (
+          <div className="space-y-4">
+            <Input 
+              name="title" 
+              placeholder="Titel" 
+              value={form.title} 
+              onChange={handleChange} 
+              required 
+              disabled={salonId == null} 
+            />
             <div>
-              <label className="block mb-1 font-medium">Billede</label>
+              <Select value={form.category} onValueChange={handleCategoryChange} disabled={true}>
+                <SelectTrigger className="opacity-50 cursor-not-allowed border-gray-300" title="Coming soon">
+                  <SelectValue placeholder="Vælg kategori - Coming soon" />
+                </SelectTrigger>
+                <SelectContent>
+                  {CATEGORIES.map((category) => (
+                    <SelectItem key={category} value={category}>
+                      {category}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <Input 
+              name="startDate" 
+              placeholder="Startdato" 
+              type="datetime-local" 
+              value={form.startDate} 
+              onChange={handleChange} 
+              required 
+              disabled={salonId == null} 
+            />
+            <Input 
+              name="expiryDate" 
+              placeholder="Slutdato" 
+              type="datetime-local" 
+              value={form.expiryDate} 
+              onChange={handleChange} 
+              required 
+              disabled={salonId == null} 
+            />
+          </div>
+        );
+
+      case 2:
+        return (
+          <div className="space-y-4">
+            <div>
+              <label className="block mb-2 font-medium">Billede</label>
               {imagePreview && (
                 <img src={imagePreview} alt="Preview" className="w-32 h-32 object-cover rounded mb-2" />
               )}
@@ -166,10 +263,153 @@ export default function CreateDealForm({ salonId }: { salonId: number | null }) 
               {imageUploading && <div className="text-gray-500 text-xs">Uploader billede...</div>}
               {imageError && <div className="text-red-500 text-xs">{imageError}</div>}
             </div>
-            {error && <div className="text-red-500 text-sm">{error}</div>}
-            {success && <div className="text-green-600 text-sm">{success}</div>}
-            <Button type="submit" disabled={loading || salonId == null || imageUploading}>{loading ? "Opretter..." : "Opret tilbud"}</Button>
-          </form>
+            <div>
+              <label className="block mb-2 font-medium">Beskrivelse</label>
+              <textarea 
+                name="description" 
+                placeholder="Beskrivelse af tilbuddet..." 
+                value={form.description} 
+                onChange={handleChange} 
+                required 
+                disabled={salonId == null}
+                rows={4}
+                className="flex min-h-[60px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+              />
+            </div>
+          </div>
+        );
+
+      case 3:
+        return (
+          <div className="space-y-4">
+            <div>
+              <label className="block mb-2 font-medium">Varighed</label>
+              <Input 
+                name="durationMinutes" 
+                placeholder="Varighed i minutter (f.eks. 60)" 
+                type="number" 
+                value={form.durationMinutes} 
+                onChange={handleChange} 
+                required 
+                disabled={salonId == null}
+                min="1"
+              />
+            </div>
+          </div>
+        );
+
+      case 4:
+        return (
+          <div className="space-y-4">
+            <Input 
+              name="originalPrice" 
+              placeholder="Normalpris (kr.)" 
+              type="number" 
+              value={form.originalPrice} 
+              onChange={handleChange} 
+              required 
+              disabled={salonId == null}
+              min="0"
+              step="0.01"
+            />
+            <Input 
+              name="price" 
+              placeholder="Tilbudspris (kr.)" 
+              type="number" 
+              value={form.price} 
+              onChange={handleChange} 
+              required 
+              disabled={salonId == null}
+              min="0"
+              step="0.01"
+            />
+          </div>
+        );
+
+      default:
+        return null;
+    }
+  };
+
+  const getStepTitle = () => {
+    switch (currentStep) {
+      case 1: return "Grundlæggende oplysninger";
+      case 2: return "Billede og beskrivelse";
+      case 3: return "Varighed";
+      case 4: return "Priser";
+      default: return "Opret tilbud";
+    }
+  };
+
+  const canProceedToNextStep = () => {
+    switch (currentStep) {
+      case 1: return isStep1Valid();
+      case 2: return isStep2Valid();
+      case 3: return isStep3Valid();
+      case 4: return isStep4Valid();
+      default: return false;
+    }
+  };
+
+  return (
+    <>
+      <Dialog open={open} onOpenChange={handleDialogChange}>
+        <DialogTrigger asChild>
+          <Button variant="default" disabled={salonId == null}>Opret tilbud</Button>
+        </DialogTrigger>
+        <DialogContent className="max-w-md">
+          <DialogTitle>{getStepTitle()}</DialogTitle>
+          <DialogDescription>
+            {currentStep === 1 && "Udfyld grundlæggende oplysninger for dit tilbud."}
+            {currentStep === 2 && "Tilføj et billede og beskrivelse af dit tilbud."}
+            {currentStep === 3 && "Angiv varigheden for dit tilbud."}
+            {currentStep === 4 && "Angiv priser for dit tilbud."}
+          </DialogDescription>
+          
+          {/* Progress indicator */}
+          <div className="flex justify-between mb-4">
+            {[1, 2, 3, 4].map((step) => (
+              <div key={step} className={`w-2 h-2 rounded-full ${currentStep >= step ? 'bg-primary' : 'bg-gray-300'}`} />
+            ))}
+          </div>
+
+          {renderStepContent()}
+
+          {error && <div className="text-red-500 text-sm">{error}</div>}
+          {success && <div className="text-green-600 text-sm">{success}</div>}
+
+          <div className="flex justify-between space-x-2">
+            {currentStep > 1 && (
+              <Button 
+                type="button" 
+                variant="outline" 
+                onClick={prevStep}
+                disabled={loading}
+              >
+                Forrige
+              </Button>
+            )}
+            
+            <div className="flex-1" />
+            
+            {currentStep < 4 ? (
+              <Button 
+                type="button" 
+                onClick={nextStep}
+                disabled={!canProceedToNextStep() || salonId == null}
+              >
+                Næste trin
+              </Button>
+            ) : (
+              <Button 
+                type="button" 
+                onClick={handleSubmit}
+                disabled={loading || !canProceedToNextStep() || salonId == null || imageUploading}
+              >
+                {loading ? "Gemmer..." : "Gem deal"}
+              </Button>
+            )}
+          </div>
         </DialogContent>
       </Dialog>
       {showSuccessPopup && (
