@@ -31,8 +31,12 @@ export default function CreateDealForm({ salonId }: { salonId: number | null }) 
     originalPrice: "",
     price: "",
     quantity: "1",
-    startDate: "",
-    expiryDate: "",
+    startDay: "",
+    startMonth: "",
+    startYear: "",
+    expiryDay: "",
+    expiryMonth: "",
+    expiryYear: "",
     durationMinutes: ""
   });
   const [loading, setLoading] = useState(false);
@@ -45,7 +49,7 @@ export default function CreateDealForm({ salonId }: { salonId: number | null }) 
   const [imageUrl, setImageUrl] = useState<string>("");
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
@@ -75,8 +79,12 @@ export default function CreateDealForm({ salonId }: { salonId: number | null }) 
       originalPrice: "",
       price: "",
       quantity: "1",
-      startDate: "",
-      expiryDate: "",
+      startDay: "",
+      startMonth: "",
+      startYear: "",
+      expiryDay: "",
+      expiryMonth: "",
+      expiryYear: "",
       durationMinutes: ""
     });
     setCurrentStep(1);
@@ -151,6 +159,13 @@ export default function CreateDealForm({ salonId }: { salonId: number | null }) 
       return;
     }
     try {
+      // Combine dropdowns into date strings
+      const startDate = form.startYear && form.startMonth && form.startDay
+        ? `${form.startYear}-${form.startMonth.padStart(2, "0")}-${form.startDay.padStart(2, "0")}`
+        : "";
+      const expiryDate = form.expiryYear && form.expiryMonth && form.expiryDay
+        ? `${form.expiryYear}-${form.expiryMonth.padStart(2, "0")}-${form.expiryDay.padStart(2, "0")}`
+        : "";
       const res = await fetch("/api/business/deal/create", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -160,8 +175,8 @@ export default function CreateDealForm({ salonId }: { salonId: number | null }) 
           originalPrice: Number(form.originalPrice),
           price: Number(form.price),
           quantity: Number(form.quantity),
-          startDate: form.startDate,
-          expiryDate: form.expiryDate,
+          startDate,
+          expiryDate,
           durationMinutes: Number(form.durationMinutes),
           salonId,
           imageUrl: uploadedImageUrl || undefined
@@ -188,7 +203,11 @@ export default function CreateDealForm({ salonId }: { salonId: number | null }) 
   };
 
   const isStep1Valid = () => {
-    return form.title.trim() && form.startDate && form.expiryDate;
+    return (
+      form.title.trim() &&
+      form.startDay && form.startMonth && form.startYear &&
+      form.expiryDay && form.expiryMonth && form.expiryYear
+    );
   };
 
   const isStep2Valid = () => {
@@ -206,6 +225,27 @@ export default function CreateDealForm({ salonId }: { salonId: number | null }) 
   const renderStepContent = () => {
     switch (currentStep) {
       case 1:
+        // Helper arrays for dropdowns
+        const days = Array.from({ length: 31 }, (_, i) => String(i + 1));
+        const months = [
+          { value: "01", label: "Jan." },
+          { value: "02", label: "Feb." },
+          { value: "03", label: "Mar." },
+          { value: "04", label: "Apr." },
+          { value: "05", label: "Maj" },
+          { value: "06", label: "Jun." },
+          { value: "07", label: "Jul." },
+          { value: "08", label: "Aug." },
+          { value: "09", label: "Sep." },
+          { value: "10", label: "Okt." },
+          { value: "11", label: "Nov." },
+          { value: "12", label: "Dec." },
+        ];
+        const currentYear = new Date().getFullYear();
+        const years = Array.from({ length: 5 }, (_, i) => String(currentYear + i));
+
+  const dropdownStyle = "bg-gray-100 rounded-md px-4 py-2 font-bold text-base mr-2 focus:outline-none min-w-[90px]";
+
         return (
           <div className="space-y-4">
             <Input 
@@ -230,24 +270,64 @@ export default function CreateDealForm({ salonId }: { salonId: number | null }) 
                 </SelectContent>
               </Select>
             </div>
-            <Input 
-              name="startDate" 
-              placeholder="Startdato" 
-              type="date" 
-              value={form.startDate} 
-              onChange={handleChange} 
-              required 
-              disabled={salonId == null} 
-            />
-            <Input 
-              name="expiryDate" 
-              placeholder="Slutdato" 
-              type="date" 
-              value={form.expiryDate} 
-              onChange={handleChange} 
-              required 
-              disabled={salonId == null} 
-            />
+            <div className="flex flex-col gap-2">
+              <label className="font-medium mb-1">Fra</label>
+              <div className="flex flex-row gap-2">
+                <Select value={form.startDay} onValueChange={value => handleChange({target: {name: 'startDay', value}} as any)} disabled={salonId == null}>
+                  <SelectTrigger className={dropdownStyle}><SelectValue placeholder="Dag" /></SelectTrigger>
+                  <SelectContent className="max-h-[180px] overflow-y-auto">
+                    {days.map(day => (
+                      <SelectItem key={day} value={day}>{day}.</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <Select value={form.startMonth} onValueChange={value => handleChange({target: {name: 'startMonth', value}} as any)} disabled={salonId == null}>
+                  <SelectTrigger className={dropdownStyle}><SelectValue placeholder="Måned" /></SelectTrigger>
+                  <SelectContent className="max-h-[180px] overflow-y-auto">
+                    {months.map(month => (
+                      <SelectItem key={month.value} value={month.value}>{month.label}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <Select value={form.startYear} onValueChange={value => handleChange({target: {name: 'startYear', value}} as any)} disabled={salonId == null}>
+                  <SelectTrigger className={dropdownStyle}><SelectValue placeholder="År" /></SelectTrigger>
+                  <SelectContent className="max-h-[180px] overflow-y-auto">
+                    {years.map(year => (
+                      <SelectItem key={year} value={year}>{year}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            <div className="flex flex-col gap-2">
+              <label className="font-medium mb-1">Til</label>
+              <div className="flex flex-row gap-2">
+                <Select value={form.expiryDay} onValueChange={value => handleChange({target: {name: 'expiryDay', value}} as any)} disabled={salonId == null}>
+                  <SelectTrigger className={dropdownStyle}><SelectValue placeholder="Dag" /></SelectTrigger>
+                  <SelectContent className="max-h-[180px] overflow-y-auto">
+                    {days.map(day => (
+                      <SelectItem key={day} value={day}>{day}.</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <Select value={form.expiryMonth} onValueChange={value => handleChange({target: {name: 'expiryMonth', value}} as any)} disabled={salonId == null}>
+                  <SelectTrigger className={dropdownStyle}><SelectValue placeholder="Måned" /></SelectTrigger>
+                  <SelectContent className="max-h-[180px] overflow-y-auto">
+                    {months.map(month => (
+                      <SelectItem key={month.value} value={month.value}>{month.label}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <Select value={form.expiryYear} onValueChange={value => handleChange({target: {name: 'expiryYear', value}} as any)} disabled={salonId == null}>
+                  <SelectTrigger className={dropdownStyle}><SelectValue placeholder="År" /></SelectTrigger>
+                  <SelectContent className="max-h-[180px] overflow-y-auto">
+                    {years.map(year => (
+                      <SelectItem key={year} value={year}>{year}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
           </div>
         );
 
