@@ -334,21 +334,34 @@ export default function CreateDealForm({ salonId }: { salonId: number | null }) 
       case 2:
         return (
           <div className="m-auto space-y-4">
-            <div className="mb-10">
-              <label className="block mb-2 mt-10 font-medium">Tilføj billede til din deal</label>
-              {imagePreview && (
-                <img src={imagePreview} alt="Preview" className="w-32 h-32 object-cover rounded mb-2" />
-              )}
-              <input
-                type="file"
-                name="dealImage"
-                accept="image/*"
-                className="block mb-2"
-                onChange={handleImageChange}
-                disabled={salonId == null}
-              />
-              {imageUploading && <div className="text-gray-500 text-xs">Uploader billede...</div>}
-              {imageError && <div className="text-red-500 text-xs">{imageError}</div>}
+            <div className="mb-10 flex flex-col items-center justify-center">
+              <label className="block mb-4 text-center font-medium text-lg">Tilføj billede til din deal</label>
+              <div className="flex items-center justify-center">
+                <label htmlFor="dealImageUpload" className="cursor-pointer">
+                  <div className="flex items-center justify-center w-44 h-44 border-4 border-black rounded-2xl bg-white relative">
+                    {imagePreview ? (
+                      <img src={imagePreview} alt="Preview" className="w-full h-full object-cover rounded-2xl" />
+                    ) : (
+                      <svg width="100" height="80" viewBox="0 0 100 80" fill="none">
+                        <rect x="5" y="5" width="90" height="70" rx="6" stroke="#000" strokeWidth="5" fill="none" />
+                        <circle cx="25" cy="25" r="10" stroke="#000" strokeWidth="5" fill="none" />
+                        <polyline points="5,75 35,45 55,65 75,35 95,75" stroke="#000" strokeWidth="5" fill="none" />
+                      </svg>
+                    )}
+                  </div>
+                  <input
+                    id="dealImageUpload"
+                    type="file"
+                    name="dealImage"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={handleImageChange}
+                    disabled={salonId == null}
+                  />
+                </label>
+              </div>
+              {imageUploading && <div className="text-gray-500 text-xs mt-2">Uploader billede...</div>}
+              {imageError && <div className="text-red-500 text-xs mt-2">{imageError}</div>}
             </div>
             <div className="">
               <label className="block mb-2 font-medium">Beskrivelse</label>
@@ -399,7 +412,7 @@ export default function CreateDealForm({ salonId }: { salonId: number | null }) 
               min="0"
               step="0.01"
             />
-            <Input 
+            <Input
               name="price" 
               placeholder="Tilbudspris (kr.)" 
               type="number" 
@@ -410,6 +423,17 @@ export default function CreateDealForm({ salonId }: { salonId: number | null }) 
               min="0"
               step="0.01"
             />
+              <div className="mb-8 mt-6 relative group select-none overflow-hidden">
+                <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center rounded-xl z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+                  <span className="text-white text-base font-bold">Kommer snart</span>
+                </div>
+                <div className="relative z-0 filter blur-[0.5px]">
+                  <div className="text-gray-500 rounded-xl px-6 py-6 text-lg text-center">
+                    <p className="mb-2">Dit tilbud tjener... hvis alle dage bliver bookede</p>
+                    <p>Du giver... </p> <p> % tilbud </p>
+                  </div>
+                </div>
+              </div>
           </div>
         );
 
@@ -435,7 +459,7 @@ export default function CreateDealForm({ salonId }: { salonId: number | null }) 
           <Button variant="default" disabled={salonId == null}>Opret tilbud</Button>
         </DialogTrigger>
         <DialogContent className="max-w-md">
-          <DialogTitle className="mb-10 md:text-4xl m-auto">Tilføj en ny deal</DialogTitle>
+          <DialogTitle className="mb-10 md:text-4xl">Tilføj en ny deal</DialogTitle>
 
           {renderStepContent()}
 
