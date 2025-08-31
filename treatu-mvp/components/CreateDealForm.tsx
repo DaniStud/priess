@@ -253,9 +253,9 @@ export default function CreateDealForm({ salonId }: { salonId: number | null }) 
 
       case 2:
         return (
-          <div className="space-y-4">
-            <div>
-              <label className="block mb-2 font-medium">Billede</label>
+          <div className="m-auto space-y-4">
+            <div className="mb-10">
+              <label className="block mb-2 mt-10 font-medium">Tilføj billede til din deal</label>
               {imagePreview && (
                 <img src={imagePreview} alt="Preview" className="w-32 h-32 object-cover rounded mb-2" />
               )}
@@ -270,7 +270,7 @@ export default function CreateDealForm({ salonId }: { salonId: number | null }) 
               {imageUploading && <div className="text-gray-500 text-xs">Uploader billede...</div>}
               {imageError && <div className="text-red-500 text-xs">{imageError}</div>}
             </div>
-            <div>
+            <div className="">
               <label className="block mb-2 font-medium">Beskrivelse</label>
               <textarea 
                 name="description" 
@@ -355,8 +355,7 @@ export default function CreateDealForm({ salonId }: { salonId: number | null }) 
           <Button variant="default" disabled={salonId == null}>Opret tilbud</Button>
         </DialogTrigger>
         <DialogContent className="max-w-md">
-          <DialogTitle>Opret et nyt tilbud</DialogTitle>
-          <DialogDescription>Udfyld felterne herunder for at oprette et nyt tilbud.</DialogDescription>
+          <DialogTitle className="mb-10 md:text-4xl m-auto">Tilføj en ny deal</DialogTitle>
 
           {renderStepContent()}
 

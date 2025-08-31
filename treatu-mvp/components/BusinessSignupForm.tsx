@@ -16,6 +16,8 @@ type Step = "signup" | "business-type" | "services" | "salon-name" | "address" |
 
 const SERVICES = {
   "hair salon": [
+    "Dame Klip",
+    "Herre klip",
     "Bryn",
     "Vipper",
     "Braids",
@@ -26,27 +28,46 @@ const SERVICES = {
     "Hud behandlinger",
     "Negle",
     "Hårfjerning",
-    "Herre klip",
-    "Dame Klip",
     "Børne klip",
   ],
   "beauty salon": [
-    "Botox",
+    "Dame Klip",
+    "Herre klip",
+    "Bryn",
+    "Vipper",
+    "Braids",
+    "Skæg",
+    "Ekstentions",
+    "Perm",
+    "Styling",
+    "Hud behandlinger",
     "Negle",
-    "Øjenvipper",
+    "Hårfjerning",
+    "Børne klip",
   ],
   "nail salon": [
+    "Dame Klip",
+    "Herre klip",
+    "Bryn",
+    "Vipper",
+    "Braids",
+    "Skæg",
+    "Ekstentions",
+    "Perm",
+    "Styling",
+    "Hud behandlinger",
     "Negle",
-    "Håndpleje",
-    "Fodpleje",
-    "Gellak",
-    "Akryl",
-    "Nail Art",
+    "Hårfjerning",
+    "Børne klip",
   ],
 };
 
-export default function BusinessSignupForm() {
-  const [step, setStep] = useState<Step>("signup");
+type BusinessSignupFormProps = {
+  step: Step;
+  setStep: (step: Step) => void;
+};
+
+export default function BusinessSignupForm({ step, setStep }: BusinessSignupFormProps) {
 
   // Signup fields
   const [form, setForm] = useState({ name: "", email: "", password: "" });
@@ -164,7 +185,7 @@ export default function BusinessSignupForm() {
     <div>
       {step === "signup" && (
         <form className="flex flex-col gap-2 max-w-md mx-auto mt-8" onSubmit={handleSignupSubmit}>
-          <Input name="name" placeholder="Virksomhedsnavn" value={form.name} onChange={handleChange} required />
+          <Input name="name" placeholder="Forretningsnavn " value={form.name} onChange={handleChange} required />
           <Input type="email" name="email" placeholder="E-mail" value={form.email} onChange={handleChange} required />
           <div className="flex gap-2">
             <Input className="w-1/2" type="password" name="password" placeholder="Adgangskode" value={form.password} onChange={handleChange} required />
@@ -203,7 +224,7 @@ export default function BusinessSignupForm() {
 
       {step === "services" && (
         <form className="flex flex-col gap-4 max-w-md mx-auto mt-8" onSubmit={handleServicesSubmit}>
-          <h1 className="text-2xl font-bold mb-4">Hvilke services tilbyder du?</h1>
+          <h1 className="text-2xl font-bold mb-4">Hvilke tjenester tilbyder I?</h1>
           <div className="flex flex-col gap-2 mb-4">
             {(SERVICES[businessType as keyof typeof SERVICES] || []).map((service) => (
               <label key={service} className="flex items-center gap-2 cursor-pointer">
