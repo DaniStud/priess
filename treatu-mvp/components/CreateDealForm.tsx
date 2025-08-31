@@ -175,6 +175,10 @@ export default function CreateDealForm({ salonId }: { salonId: number | null }) 
         resetForm();
         setOpen(false);
         setShowSuccessPopup(true);
+        // Refresh the page after 3 seconds
+        setTimeout(() => {
+          window.location.reload();
+        }, 3000);
       }
     } catch (err) {
       setError("Serverfejl");
@@ -206,7 +210,7 @@ export default function CreateDealForm({ salonId }: { salonId: number | null }) 
           <div className="space-y-4">
             <Input 
               name="title" 
-              placeholder="Titel" 
+              placeholder="Overskrift" 
               value={form.title} 
               onChange={handleChange} 
               required 
@@ -229,7 +233,7 @@ export default function CreateDealForm({ salonId }: { salonId: number | null }) 
             <Input 
               name="startDate" 
               placeholder="Startdato" 
-              type="datetime-local" 
+              type="date" 
               value={form.startDate} 
               onChange={handleChange} 
               required 
@@ -238,7 +242,7 @@ export default function CreateDealForm({ salonId }: { salonId: number | null }) 
             <Input 
               name="expiryDate" 
               placeholder="Slutdato" 
-              type="datetime-local" 
+              type="date" 
               value={form.expiryDate} 
               onChange={handleChange} 
               required 
@@ -334,16 +338,6 @@ export default function CreateDealForm({ salonId }: { salonId: number | null }) 
     }
   };
 
-  const getStepTitle = () => {
-    switch (currentStep) {
-      case 1: return "Grundlæggende oplysninger";
-      case 2: return "Billede og beskrivelse";
-      case 3: return "Varighed";
-      case 4: return "Priser";
-      default: return "Opret tilbud";
-    }
-  };
-
   const canProceedToNextStep = () => {
     switch (currentStep) {
       case 1: return isStep1Valid();
@@ -361,20 +355,8 @@ export default function CreateDealForm({ salonId }: { salonId: number | null }) 
           <Button variant="default" disabled={salonId == null}>Opret tilbud</Button>
         </DialogTrigger>
         <DialogContent className="max-w-md">
-          <DialogTitle>{getStepTitle()}</DialogTitle>
-          <DialogDescription>
-            {currentStep === 1 && "Udfyld grundlæggende oplysninger for dit tilbud."}
-            {currentStep === 2 && "Tilføj et billede og beskrivelse af dit tilbud."}
-            {currentStep === 3 && "Angiv varigheden for dit tilbud."}
-            {currentStep === 4 && "Angiv priser for dit tilbud."}
-          </DialogDescription>
-          
-          {/* Progress indicator */}
-          <div className="flex justify-between mb-4">
-            {[1, 2, 3, 4].map((step) => (
-              <div key={step} className={`w-2 h-2 rounded-full ${currentStep >= step ? 'bg-primary' : 'bg-gray-300'}`} />
-            ))}
-          </div>
+          <DialogTitle>Opret et nyt tilbud</DialogTitle>
+          <DialogDescription>Udfyld felterne herunder for at oprette et nyt tilbud.</DialogDescription>
 
           {renderStepContent()}
 
@@ -430,42 +412,24 @@ export default function CreateDealForm({ salonId }: { salonId: number | null }) 
           }}
         >
           <div
-            style={{
-              background: "#fff",
-              border: "1px solid #ccc",
-              borderRadius: "12px",
-              padding: "32px 24px",
-              boxShadow: "0 2px 16px rgba(0,0,0,0.08)",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              minWidth: "320px",
-            }}
+            className="bg-white border border-gray-300 rounded-3xl p-8 shadow-lg flex flex-col items-center min-w-[300px] min-h-[400px] lg:min-w-[240px] lg:min-h-[600px] pt-[150px]"
           >
-            <div style={{ marginBottom: 16 }}>
-              <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-                <circle cx="24" cy="24" r="24" fill="#8B5CF6" />
+            <div className="text-center text-[1.4rem] font-semibold text-[#333] mb-6 lg:text-[3.5rem] lg:font-extrabold font-league-spartan">
+              Din deal er tilføjet til appen
+            </div>
+            <div className="mb-8 lg:mb-16">
+                <svg width="48" height="48" viewBox="0 0 48 48" fill="none" className="w-16 h-16 lg:w-40 lg:h-40">
+                <defs>
+                  <linearGradient id="deal-success-gradient" x1="24" y1="0" x2="24" y2="48" gradientUnits="userSpaceOnUse">
+                    <stop offset="0%" stopColor="#d2bcff" />
+                    <stop offset="100%" stopColor="#827692" />
+                  </linearGradient>
+                </defs>
+                <circle cx="24" cy="24" r="24" fill="url(#deal-success-gradient)" />
                 <path d="M16 24l6 6 10-10" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </div>
-            <div style={{ fontSize: "1.2rem", fontWeight: 500, color: "#333", marginBottom: 8, textAlign: "center" }}>
-              Din deal er tilføjet til appen
-            </div>
-            <button
-              style={{
-                marginTop: 16,
-                background: "#8B5CF6",
-                color: "#fff",
-                border: "none",
-                borderRadius: "6px",
-                padding: "8px 20px",
-                fontWeight: 500,
-                cursor: "pointer",
-              }}
-              onClick={() => setShowSuccessPopup(false)}
-            >
-              Luk
-            </button>
+
           </div>
         </div>
       )}
