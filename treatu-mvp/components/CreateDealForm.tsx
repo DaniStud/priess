@@ -255,6 +255,7 @@ export default function CreateDealForm({ salonId }: { salonId: number | null }) 
               onChange={handleChange} 
               required 
               disabled={salonId == null} 
+              className="bg-[#e8e8e8]"
             />
             <div>
               <Select value={form.category} onValueChange={handleCategoryChange} disabled={true}>
@@ -373,7 +374,7 @@ export default function CreateDealForm({ salonId }: { salonId: number | null }) 
                 required 
                 disabled={salonId == null}
                 rows={4}
-                className="flex min-h-[60px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                className="flex min-h-[60px] w-full rounded-md border border-input bg-[#e8e8e8] px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
               />
             </div>
           </div>
@@ -393,6 +394,7 @@ export default function CreateDealForm({ salonId }: { salonId: number | null }) 
                 required 
                 disabled={salonId == null}
                 min="1"
+                className="bg-[#e8e8e8]"
               />
             </div>
           </div>
@@ -411,6 +413,7 @@ export default function CreateDealForm({ salonId }: { salonId: number | null }) 
               disabled={salonId == null}
               min="0"
               step="0.01"
+              className="bg-[#e8e8e8]"
             />
             <Input
               name="price" 
@@ -422,15 +425,18 @@ export default function CreateDealForm({ salonId }: { salonId: number | null }) 
               disabled={salonId == null}
               min="0"
               step="0.01"
+              className="bg-[#e8e8e8]"
             />
               <div className="mb-8 mt-6 relative group select-none overflow-hidden">
-                <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center rounded-xl z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+                {/* Overlay: always visible on mobile, hover on md+ */}
+                <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center rounded-xl z-10 pointer-events-none opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-200">
                   <span className="text-white text-base font-bold">Kommer snart</span>
                 </div>
-                <div className="relative z-0 filter blur-[0.5px]">
-                  <div className="text-gray-500 rounded-xl px-6 py-6 text-lg text-center">
-                    <p className="mb-2">Dit tilbud tjener... hvis alle dage bliver bookede</p>
-                    <p>Du giver... </p> <p> % tilbud </p>
+                {/* Blur: always on mobile, hover on md+ */}
+                <div className="relative z-0 filter blur-[0.5px] md:blur-none md:group-hover:blur-[0.5px] transition-all duration-200">
+                  <div className="rounded-xl px-6 py-6 text-lg text-center">
+                    <p className="mt-4 mb-16">Dit tilbud tjener... hvis alle dage bliver bookede</p>
+                    <p className="font-bold">Du giver... </p> <p className="font-bold text-4xl"> % tilbud </p>
                   </div>
                 </div>
               </div>

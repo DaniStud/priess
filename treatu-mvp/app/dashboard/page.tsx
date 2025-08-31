@@ -204,8 +204,8 @@ const DashboardPage = () => {
             <div></div>
           </div>
           <div className="relative bg-gray-100 p-4 rounded pointer-events-none select-none overflow-hidden">
-            <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center rounded z-10">
-              <span className="text-white text-2xl font-bold">Kommer snart</span>
+            <div className="absolute inset-0 bg-black bg-opacity-5 flex items-center justify-center rounded z-10">
+              <span className="text-black text-2xl font-bold">Kommer snart</span>
             </div>
             <div className="relative z-0 filter blur-[2px] pointer-events-none select-none">
               {/* Calendar Icon */}
