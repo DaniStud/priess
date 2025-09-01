@@ -9,7 +9,10 @@ import { useState } from "react";
 
 export default function Home() {
   const [showSignup, setShowSignup] = useState(false);
-  const [signupStep, setSignupStep] = useState("signup");
+  // Import Step type from BusinessSignupForm
+  // @ts-ignore-next-line
+  type Step = "signup" | "business-type" | "services" | "salon-name" | "address" | "done";
+  const [signupStep, setSignupStep] = useState<Step>("signup");
   return (
     <>
       <main
