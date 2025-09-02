@@ -49,7 +49,7 @@ export default function BusinessLoginForm() {
         onChange={e => setPassword(e.target.value)}
         required
       />
-      <Button className="mt-10" type="submit" disabled={loading}>
+      <Button className="mt-10 rounded-full" type="submit" disabled={loading}>
         {loading ? "Logger ind..." : "Log ind"}
       </Button>
       {status === "success" && <p className="text-green-600">Du er nu logget ind!</p>}

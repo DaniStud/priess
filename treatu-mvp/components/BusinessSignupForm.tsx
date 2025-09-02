@@ -191,7 +191,7 @@ export default function BusinessSignupForm({ step, setStep }: BusinessSignupForm
             <Input className="w-1/2" type="password" name="password" placeholder="Adgangskode" value={form.password} onChange={handleChange} required />
             <Input className="w-1/2" type="password" name="confirmPassword" placeholder="Bekræft adgangskode" value={confirmPassword} onChange={handleConfirmPasswordChange} required />
           </div>
-          <Button type="submit" disabled={loading}>
+          <Button className="rounded-full" type="submit" disabled={loading}>
             {loading ? "Opretter..." : "Næste"}
           </Button>
           {status === "password-mismatch" && <p className="text-red-600">Adgangskoderne matcher ikke.</p>}
@@ -212,10 +212,10 @@ export default function BusinessSignupForm({ step, setStep }: BusinessSignupForm
             </SelectContent>
           </Select>
           <div className="flex gap-2">
-            <Button type="button" onClick={handleBackFromBusinessType}>
+            <Button className="rounded-full" type="button" onClick={handleBackFromBusinessType}>
               Tilbage
             </Button>
-            <Button type="submit" disabled={loading || !businessType}>
+            <Button className="rounded-full" type="submit" disabled={loading || !businessType}>
               {loading ? "Fortsætter..." : "Næste"}
             </Button>
           </div>
@@ -238,10 +238,10 @@ export default function BusinessSignupForm({ step, setStep }: BusinessSignupForm
             ))}
           </div>
           <div className="flex gap-2">
-            <Button type="button" onClick={handleBackFromServices}>
+            <Button className="rounded-full" type="button" onClick={handleBackFromServices}>
               Tilbage
             </Button>
-            <Button type="submit" disabled={loading || !services.length}>
+            <Button className="rounded-full" type="submit" disabled={loading || !services.length}>
               {loading ? "Fortsætter..." : "Næste"}
             </Button>
           </div>
@@ -261,10 +261,10 @@ export default function BusinessSignupForm({ step, setStep }: BusinessSignupForm
             required
           />
           <div className="flex gap-2">
-            <Button type="button" onClick={handleBackFromSalonName}>
+            <Button className="rounded-full" type="button" onClick={handleBackFromSalonName}>
               Tilbage
             </Button>
-            <Button type="submit" disabled={loading || !salonName.trim()}>
+            <Button className="rounded-full" type="submit" disabled={loading || !salonName.trim()}>
               {loading ? "Fortsætter..." : "Næste"}
             </Button>
           </div>
@@ -305,10 +305,10 @@ export default function BusinessSignupForm({ step, setStep }: BusinessSignupForm
             required
           />
           <div className="flex gap-2">
-            <Button type="button" onClick={handleBackFromAddress}>
+            <Button className="rounded-full" type="button" onClick={handleBackFromAddress}>
               Tilbage
             </Button>
-            <Button type="submit" disabled={loading || !address.address || !address.city || !address.zipCode || !address.country}>
+            <Button className="rounded-full" type="submit" disabled={loading || !address.address || !address.city || !address.zipCode || !address.country}>
               {loading ? "Opretter..." : "Opret virksomhed"}
             </Button>
           </div>

@@ -68,7 +68,7 @@ export default function Home() {
 
               <Button
                 variant="outline"
-                className="w-full mb-6 bg-gray-200 text-gray-700 hover:bg-gray-300 sm:pl-20 sm:pr-20"
+                className="w-full mb-6 bg-gray-200 text-gray-700 hover:bg-gray-300 sm:pl-20 sm:pr-20 rounded-full"
                 onClick={() => setShowSignup((prev) => !prev)}
               >
                 {showSignup ? "Tilbage til login" : "Opret din virksomhed i dag!"}
